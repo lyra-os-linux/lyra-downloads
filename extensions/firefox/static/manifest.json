@@ -6,7 +6,7 @@
   "default_locale": "pt_BR",
   "browser_specific_settings": {
     "gecko": {
-      "id": "lyra-downloads-dev@lyraos.invalid",
+      "id": "lyra-downloads@lyraos.com.br",
       "strict_min_version": "140.0",
       "data_collection_permissions": {
         "required": ["none"]

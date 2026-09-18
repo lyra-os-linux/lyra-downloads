@@ -17,14 +17,13 @@ isso **não foi testado nem é suportado** nesta versão.
 
 ## Identificador da extensão
 
-`lyra-downloads-dev@lyraos.invalid` é um ID **técnico de desenvolvimento** (o
-domínio `.invalid` é reservado e deixa isso explícito). Antes de publicar:
-
-1. Escolher o ID definitivo (ex.: `lyra-downloads@<domínio do projeto>`).
-2. Trocar em `extensions/firefox/static/manifest.json`
-   (`browser_specific_settings.gecko.id`), em `EXTENSION_ID`
-   (`crates/lyra-downloads-nativehost/src/lib.rs`), no `%build` do spec e em
-   `scripts/install-native-host.sh`.
+O ID definitivo é `lyra-downloads@lyraos.com.br`, escolhido pelo mantenedor em
+2026-09-18 seguindo o padrão das extensões Sheliak. Depois da primeira
+assinatura pela Mozilla ele **não pode mudar**. Ele aparece em
+`extensions/firefox/static/manifest.json` (`browser_specific_settings.gecko.id`),
+em `EXTENSION_ID` (`crates/lyra-downloads-nativehost/src/lib.rs`), no `%build`
+do spec (`allowed_extensions` do manifesto do native host) e em
+`scripts/install-native-host.sh`; os quatro precisam continuar iguais.
 
 ## Desenvolvimento
 

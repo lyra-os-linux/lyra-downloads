@@ -17,7 +17,7 @@ use serde_json::{json, Value};
 /// ID técnico de DESENVOLVIMENTO da extensão (TLD `.invalid` reservado —
 /// deixa claro que não é um ID de publicação). Substituir antes de uma
 /// distribuição pública; ver docs/FIREFOX.md.
-pub const EXTENSION_ID: &str = "lyra-downloads-dev@lyraos.invalid";
+pub const EXTENSION_ID: &str = "lyra-downloads@lyraos.com.br";
 pub const HOST_NAME: &str = "org.lyraos.downloads";
 pub const PROTOCOL_VERSION: u32 = 1;
 /// Limite para mensagens recebidas (o Firefox aceita até 1 MiB na direção

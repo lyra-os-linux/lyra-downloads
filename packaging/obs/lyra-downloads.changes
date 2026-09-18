@@ -1,4 +1,12 @@
 -------------------------------------------------------------------
+Fri Sep 18 19:16:10 UTC 2026 - rodrigo@lyraos.com.br
+
+- Use the definitive Firefox extension ID lyra-downloads@lyraos.com.br
+  in the native messaging host manifest (allowed_extensions) and the
+  native host, replacing the development-only
+  lyra-downloads-dev@lyraos.invalid.
+
+-------------------------------------------------------------------
 Fri Sep 18 00:00:00 UTC 2026 - rodrigo@lyraos.com.br
 
 - Initial package of Lyra Downloads 0.1.0:

@@ -7,7 +7,7 @@ import { RequestTracker } from "../dist/tracker.js";
 import { callHost } from "../dist/protocol.js";
 import { HandoffManager } from "../dist/handoff.js";
 
-const OWN = "lyra-downloads-dev@lyraos.invalid";
+const OWN = "lyra-downloads@lyraos.com.br";
 const settings = {
   autoCapture: true,
   scope: "listed",

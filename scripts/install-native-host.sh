@@ -7,7 +7,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-default_id="lyra-downloads-dev@lyraos.invalid"
+default_id="lyra-downloads@lyraos.com.br"
 
 host_path="${1:-}"
 if [[ -z "$host_path" ]]; then

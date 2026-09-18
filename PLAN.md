@@ -21,8 +21,8 @@ Documento curto para continuidade. Arquitetura: `docs/ARCHITECTURE.md`.
 - **Firefox**: MV3 com `background.scripts` (event page), `strict_min_version`
   140 (necessário para `data_collection_permissions`; é o ESR do Leap 16).
   `downloads`, `webRequest` e acesso a sites são permissões **opcionais**,
-  pedidas só ao ligar a captura. ID de desenvolvimento
-  `lyra-downloads-dev@lyraos.invalid`.
+  pedidas só ao ligar a captura. ID definitivo
+  `lyra-downloads@lyraos.com.br`.
 - **Lyra como gerenciador padrão** (pedido do mantenedor em 2026-09-18):
   interruptor no popup e nas configurações da extensão; escopo "todos os
   sites" ou lista; "qualquer tipo" ou lista; opção de capturar com cookies;
@@ -59,8 +59,8 @@ Documento curto para continuidade. Arquitetura: `docs/ARCHITECTURE.md`.
 - [ ] Alvo **Tumbleweed** e outras arquiteturas: não validados.
 - [ ] Fluxo `obs_scm` (`_service.obs_scm.template`/`gen-service.sh`): não
       testado; depende de uma tag de lançamento.
-- [ ] **XPI assinado** pela Mozilla e ID definitivo da extensão (trocar
-      `lyra-downloads-dev@lyraos.invalid` nos 4 lugares listados em docs/FIREFOX.md).
+- [x] ID definitivo da extensão: `lyra-downloads@lyraos.com.br`.
+- [ ] **XPI assinado** pela Mozilla.
 - [ ] Firefox Flatpak/Snap: não suportado.
 - [ ] Teste de interface automatizado (janela estreita, leitores de tela):
       só verificação manual/offscreen.

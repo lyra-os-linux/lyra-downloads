@@ -85,7 +85,7 @@ data = json.loads(open(template, encoding="utf-8").read())
 data["path"] = host
 # ID técnico de DESENVOLVIMENTO; trocar pelo ID definitivo da extensão
 # assinada antes de publicar (ver docs/FIREFOX.md).
-data["allowed_extensions"] = ["lyra-downloads-dev@lyraos.invalid"]
+data["allowed_extensions"] = ["lyra-downloads@lyraos.com.br"]
 open(out, "w", encoding="utf-8").write(json.dumps(data, indent=2, ensure_ascii=False) + "\n")
 EOF
 
