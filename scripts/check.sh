@@ -18,14 +18,6 @@ step ".desktop e AppStream"
 desktop-file-validate data/org.lyraos.Downloads.desktop
 appstreamcli validate --no-net data/org.lyraos.Downloads.metainfo.xml
 appstream-util validate-relax --nonet data/org.lyraos.Downloads.metainfo.xml
-step "extensão: TypeScript, testes e web-ext lint"
-(
-    cd extensions/firefox
-    [[ -d node_modules ]] || npm ci --no-audit --no-fund
-    npm run typecheck
-    npm test
-    npx web-ext lint --source-dir dist --self-hosted
-)
 step "scripts shell"
 bash -n scripts/*.sh packaging/obs/*.sh
 echo

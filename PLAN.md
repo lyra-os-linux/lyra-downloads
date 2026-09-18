@@ -60,7 +60,8 @@ Documento curto para continuidade. Arquitetura: `docs/ARCHITECTURE.md`.
 - [ ] Fluxo `obs_scm` (`_service.obs_scm.template`/`gen-service.sh`): não
       testado; depende de uma tag de lançamento.
 - [x] ID definitivo da extensão: `lyra-downloads@lyraos.com.br`.
-- [ ] **XPI assinado** pela Mozilla.
+- [x] **XPI assinado** pela Mozilla (AMO, não listado); a extensão foi movida
+      para github.com/lyra-os-linux/lyra-firefox-ext em 2026-09-18.
 - [ ] Firefox Flatpak/Snap: não suportado.
 - [ ] Teste de interface automatizado (janela estreita, leitores de tela):
       só verificação manual/offscreen.

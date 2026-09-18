@@ -25,7 +25,6 @@ avançado, outros navegadores, Flatpak.
 |---|---|
 | Execução | `aria2` (1.37.0), `gtk4` (4.18), `libadwaita` (1.7), `sqlite3` (3.53) |
 | Build | `rust`/`cargo` (1.97; mínimo 1.92), `gcc`, `pkgconfig`, `gtk4-devel`, `libadwaita-devel`, `sqlite3-devel`, `gettext-tools`, `python3` |
-| Extensão (só desenvolvimento) | `nodejs24`/npm; `typescript` e `web-ext` vêm do `package-lock.json` |
 | Validação | `desktop-file-utils`, `appstream-glib`, `AppStream` (appstreamcli) |
 
 ```sh
@@ -73,11 +72,11 @@ Resumo (detalhes em [`docs/FIREFOX.md`](docs/FIREFOX.md)):
 
 ```sh
 scripts/install-native-host.sh            # registra o host para o seu usuário
-cd extensions/firefox && npm ci && npm test && npx web-ext run --source-dir dist
 ```
 
-O pacote gerado por `npm run package` **não é assinado** e serve só para
-desenvolvimento. Distribuição para uso normal exige assinatura da Mozilla.
+A extensão fica em [lyra-firefox-ext](https://github.com/lyra-os-linux/lyra-firefox-ext),
+assinada pela Mozilla e empacotada como `lyra-firefox-ext`; no Lyra OS ela é
+instalada por política do Firefox.
 Firefox em Flatpak/Snap não é suportado nesta versão.
 
 ## Testes
@@ -91,7 +90,7 @@ Executa `cargo fmt --check`, `cargo clippy -D warnings`, `cargo test`
 ranges/206, sem ranges, sem tamanho, redirecionamento, 403/404/conexão
 recusada, pausa/retomada, reinício do backend, idempotência e o native host
 morto no meio do download), conferência de traduções e licenças, validação do
-`.desktop`/AppStream, testes TypeScript da extensão e `web-ext lint`. Nenhum
+`.desktop`/AppStream. Nenhum
 teste acessa a Internet. Sem `aria2c`, os testes de integração são pulados e
 avisam que isso **não conta como aprovado**.
 

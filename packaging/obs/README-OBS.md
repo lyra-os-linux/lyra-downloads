@@ -53,7 +53,7 @@ remoto antes). Esse fluxo com `obs_scm` **ainda não foi testado**.
 - `%{cargo_build} --locked` (macro do `cargo-packaging`: `--offline --release`,
   `cargo auditable`, debuginfo preservado para o `debuginfo`/`debugsource`).
 - Nada de `rustup`, `cargo install`, `curl` ou `npm` no spec. A extensão do
-  Firefox tem fluxo próprio (ver `docs/FIREFOX.md`); o RPM não requer Node.
+  Firefox é outro pacote (`lyra-firefox-ext`); o RPM não requer Node.
 - `%check`: validação do `.desktop` e do AppStream, conferência do catálogo
   de tradução e da lista de licenças, e `cargo test --offline`. Os testes de
   integração sobem `aria2c` e um servidor HTTP em `127.0.0.1`, em diretórios
@@ -99,8 +99,7 @@ banco é migrado pelo próprio backend, no contexto do usuário.
 
 ## 5. Nova versão
 
-1. Atualizar `version` em `Cargo.toml` (workspace) e
-   `extensions/firefox/{package.json,static/manifest.json}`.
+1. Atualizar `version` em `Cargo.toml` (workspace).
 2. `cargo update -p …` se necessário; `scripts/third-party-licenses.py` e
    ajustar `License:` do spec se aparecerem novas licenças.
 3. Entrada no topo de `lyra-downloads.changes` (`osc vc`) e `Version:` no spec.

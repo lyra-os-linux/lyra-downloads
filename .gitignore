@@ -1,6 +1,3 @@
 /target/
-/extensions/firefox/node_modules/
-/extensions/firefox/dist/
-/extensions/firefox/artifacts/
 /packaging/obs/out/
 *.mo
