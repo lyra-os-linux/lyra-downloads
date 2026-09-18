@@ -56,15 +56,16 @@ Summary:        Firefox native messaging host for Lyra Downloads
 Group:          Productivity/Networking/Other
 Requires:       %{name} = %{version}
 Enhances:       MozillaFirefox
+Recommends:     lyra-firefox-ext
 
 %description firefox-integration
 Native messaging host and its Firefox registration, used by the
 "Lyra Downloads Integration" extension to send links and downloads to
 Lyra Downloads.
 
-This package does NOT install the Firefox extension itself: the extension
-must be installed from a Mozilla-signed package. Lyra Downloads works
-without this package.
+This package does NOT install the Firefox extension itself: the
+Mozilla-signed extension is shipped by lyra-firefox-ext. Lyra Downloads
+works without this package.
 
 %prep
 # -a1 extrai Source1 (vendor.tar.zst: crates + .cargo/config.toml apontando
@@ -83,8 +84,7 @@ import json, sys
 template, out, host = sys.argv[1:]
 data = json.loads(open(template, encoding="utf-8").read())
 data["path"] = host
-# ID técnico de DESENVOLVIMENTO; trocar pelo ID definitivo da extensão
-# assinada antes de publicar (ver docs/FIREFOX.md).
+# ID definitivo da extensão assinada (lyra-firefox-ext); ver docs/FIREFOX.md.
 data["allowed_extensions"] = ["lyra-downloads@lyraos.com.br"]
 open(out, "w", encoding="utf-8").write(json.dumps(data, indent=2, ensure_ascii=False) + "\n")
 EOF

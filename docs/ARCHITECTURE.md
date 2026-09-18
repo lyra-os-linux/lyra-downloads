@@ -19,7 +19,6 @@
 | `crates/lyra-downloads-backend` | Binário `lyra-downloads-backend`: dono único da fila e do motor, servidor do socket, reconciliação, verificação SHA-256, notificações. |
 | `crates/lyra-downloads-gtk` | Binário `lyra-downloads`: interface. Só apresenta e envia comandos ao backend. |
 | `crates/lyra-downloads-nativehost` | Binário `lyra-downloads-nativehost`: enquadramento Native Messaging e encaminhamento de operações permitidas. |
-| `extensions/firefox` | Extensão *Lyra Downloads Integration* (TypeScript → WebExtension MV3). |
 | `tools/testserver` | Servidor HTTP local para testes (ranges/206, redirecionamento, falhas). Não é empacotado. |
 
 ## Ciclo de vida dos processos

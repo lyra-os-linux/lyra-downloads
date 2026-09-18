@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Fri Sep 18 20:25:56 UTC 2026 - rodrigo@lyraos.com.br
+
+- firefox-integration: Recommends lyra-firefox-ext, the package that
+  now ships the Mozilla-signed extension (moved to its own repository).
+
+-------------------------------------------------------------------
 Fri Sep 18 19:16:10 UTC 2026 - rodrigo@lyraos.com.br
 
 - Use the definitive Firefox extension ID lyra-downloads@lyraos.com.br
