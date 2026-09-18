@@ -1,0 +1,26 @@
+[package]
+name = "lyra-downloads-nativehost"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Native messaging host do Firefox para o Lyra Downloads"
+
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+name = "lyra-downloads-nativehost"
+path = "src/main.rs"
+
+[dependencies]
+lyra-downloads-core = { path = "../lyra-downloads-core" }
+lyra-downloads-ipc = { path = "../lyra-downloads-ipc" }
+serde.workspace = true
+serde_json.workspace = true
+
+[dev-dependencies]
+lyra-downloads-testserver = { path = "../../tools/testserver" }
+tempfile = "3"
+tokio.workspace = true
+libc = "0.2"

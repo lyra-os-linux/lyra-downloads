@@ -1,0 +1,28 @@
+<!--
+  Modelo para quando existir uma tag de lançamento publicada. NÃO é usado
+  como está: gere o _service real com
+      packaging/obs/gen-service.sh <URL-GIT> <TAG>
+  que valida a tag no repositório informado antes de escrever o arquivo.
+-->
+<services>
+  <service name="obs_scm" mode="manual">
+    <param name="scm">git</param>
+    <param name="url">@GIT_URL@</param>
+    <param name="revision">@REVISION@</param>
+    <param name="versionformat">@PARENT_TAG@</param>
+    <param name="versionrewrite-pattern">v(.*)</param>
+    <param name="exclude">extensions/firefox/node_modules</param>
+  </service>
+  <service name="tar" mode="buildtime"/>
+  <service name="recompress" mode="buildtime">
+    <param name="file">*.tar</param>
+    <param name="compression">zst</param>
+  </service>
+  <service name="set_version" mode="manual"/>
+  <service name="cargo_vendor" mode="manual">
+    <param name="src">lyra-downloads</param>
+    <param name="compression">zst</param>
+    <param name="update">false</param>
+    <param name="respect-lockfile">true</param>
+  </service>
+</services>

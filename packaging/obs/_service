@@ -1,0 +1,15 @@
+<services>
+  <!--
+    Vendoriza as crates a partir do tarball de fontes já enviado ao projeto
+    (gerado por packaging/obs/make-sources.sh a partir de uma revisão Git).
+    Modo "manual": roda só com `osc service manualrun`, nunca durante o build.
+    Não há serviço de busca do Git aqui porque ainda não existe uma tag de
+    lançamento; veja _service.obs_scm.template e README-OBS.md.
+  -->
+  <service name="cargo_vendor" mode="manual">
+    <param name="src">lyra-downloads-*.tar.zst</param>
+    <param name="compression">zst</param>
+    <param name="update">false</param>
+    <param name="respect-lockfile">true</param>
+  </service>
+</services>

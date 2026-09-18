@@ -1,0 +1,513 @@
+# Modelo de tradução do Lyra Downloads.
+# Idioma-fonte: português do Brasil.
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: lyra-downloads\n"
+"Report-Msgid-Bugs-To: https://github.com/lyra-os-linux/lyra-downloads/issues\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: crates/lyra-downloads-gtk/src/add_dialog.rs:107
+msgid "Opções"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/add_dialog.rs:111 crates/lyra-downloads-gtk/src/window.rs:409
+msgid "Pasta"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/add_dialog.rs:116 crates/lyra-downloads-gtk/src/prefs.rs:42
+msgid "Escolher…"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/add_dialog.rs:123 crates/lyra-downloads-gtk/src/window.rs:286
+msgid "Conexões"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/add_dialog.rs:124
+msgid "Máximo solicitado ao servidor; ele pode aceitar menos"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/add_dialog.rs:134
+msgid "SHA-256 esperado (opcional)"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/add_dialog.rs:137
+msgid "A conferência só indica que o arquivo corresponde ao hash informado; a confiança depende de onde o hash veio."
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/add_dialog.rs:236
+msgid "Consultando o servidor…"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/add_dialog.rs:249
+#, placeholders mantidos entre chaves
+msgid "Tamanho informado pelo servidor: {s}"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/add_dialog.rs:250
+msgid "O servidor não informou o tamanho."
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/add_dialog.rs:254
+msgid "Ele não aceita transferência em partes: apenas uma conexão será usada."
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/add_dialog.rs:269
+msgid "Escolher pasta de destino"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/add_dialog.rs:313
+msgid "O SHA-256 esperado deve ter 64 dígitos hexadecimais."
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/add_dialog.rs:371
+#, placeholders mantidos entre chaves
+msgid "Download adicionado: {name}"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/add_dialog.rs:373 crates/lyra-downloads-gtk/src/add_dialog.rs:382
+#, placeholders mantidos entre chaves
+msgid "{n} downloads adicionados"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/add_dialog.rs:43 crates/lyra-downloads-gtk/src/window.rs:568 crates/lyra-downloads-gtk/src/window.rs:713
+msgid "Novo download"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/add_dialog.rs:52 crates/lyra-downloads-gtk/src/window.rs:457 crates/lyra-downloads-gtk/src/window.rs:488 crates/lyra-downloads-gtk/src/window.rs:516
+msgid "Cancelar"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/add_dialog.rs:54
+msgid "Baixar"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/add_dialog.rs:66
+msgid "Vários links"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/add_dialog.rs:67
+msgid "Um endereço por linha, com as mesmas opções"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/add_dialog.rs:70
+msgid "Endereço (http:// ou https://)"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/add_dialog.rs:81
+msgid "Endereços, um por linha"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/add_dialog.rs:91
+msgid "Nome do arquivo"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/i18n.rs:13
+#, placeholders mantidos entre chaves
+msgid "{n} itens"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/prefs.rs:111
+msgid "Escolher pasta padrão"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/prefs.rs:25 crates/lyra-downloads-gtk/src/window.rs:582
+msgid "Preferências"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/prefs.rs:30
+msgid "Downloads"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/prefs.rs:33
+msgid "Pasta padrão"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/prefs.rs:47
+msgid "Conexões por download"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/prefs.rs:48
+msgid "Padrão para novos downloads; é um máximo, não uma garantia"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/prefs.rs:60
+msgid "Downloads simultâneos"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/prefs.rs:61
+msgid "Independente do número de conexões de cada download"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/prefs.rs:72
+msgid "Limite de velocidade total (KiB/s)"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/prefs.rs:73
+msgid "0 = sem limite"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/prefs.rs:89
+msgid "Comportamento"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/prefs.rs:92
+msgid "Retomar downloads automaticamente"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/prefs.rs:93
+msgid "Ao reabrir após reiniciar o computador. Downloads pausados por você continuam pausados."
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/prefs.rs:97
+msgid "Notificar ao concluir"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/task_row.rs:102
+msgid "Pausar"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/task_row.rs:103
+msgid "Retomar"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/task_row.rs:104
+msgid "Cancelar transferência"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/task_row.rs:105
+msgid "Tentar novamente"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/task_row.rs:106
+msgid "Abrir pasta"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/task_row.rs:109 crates/lyra-downloads-gtk/src/task_row.rs:113
+msgid "Mais ações"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/task_row.rs:188
+#, placeholders mantidos entre chaves
+msgid "{a} de {b}"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/task_row.rs:196
+#, placeholders mantidos entre chaves
+msgid "{a} (tamanho desconhecido)"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/task_row.rs:207
+#, placeholders mantidos entre chaves
+msgid "{n} de {max} conexões"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/task_row.rs:215
+#, placeholders mantidos entre chaves
+msgid "faltam {t}"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/task_row.rs:216
+msgid "tempo restante desconhecido"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/task_row.rs:235
+msgid "SHA-256 confere com o valor informado"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/task_row.rs:238
+msgid "SHA-256 não confere — arquivo mantido; verifique a origem"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/task_row.rs:241
+msgid "Não verificado"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/task_row.rs:44
+msgid "Aguardando"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/task_row.rs:45
+msgid "Baixando"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/task_row.rs:46
+msgid "Pausado"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/task_row.rs:47
+msgid "Verificando SHA-256"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/task_row.rs:48
+msgid "Concluído"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/task_row.rs:49
+msgid "Cancelado"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/task_row.rs:50 crates/lyra-downloads-gtk/src/window.rs:435
+msgid "Erro"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:137
+#, placeholders mantidos entre chaves
+msgid "Serviço de downloads indisponível: {e}"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:151
+msgid "Tentar iniciar o motor"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:171
+#, placeholders mantidos entre chaves
+msgid "Velocidade total: {v}"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:175
+#, placeholders mantidos entre chaves
+msgid "{n} baixando"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:177
+#, placeholders mantidos entre chaves
+msgid "{n} aguardando"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:180
+#, placeholders mantidos entre chaves
+msgid "{n} pausados"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:268
+msgid "Detalhes"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:269
+msgid "Tentar com um novo link…"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:273
+msgid "Mover para o início da fila"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:276
+msgid "Subir na fila"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:277
+msgid "Descer na fila"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:282
+#, placeholders mantidos entre chaves
+msgid "{n} conexões"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:288
+msgid "Remover do histórico"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:290
+msgid "Excluir arquivo do disco…"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:325
+msgid "Removido do histórico. O arquivo foi mantido no disco."
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:348
+msgid "Conexões alteradas. A transferência foi reiniciada a partir do ponto em que estava."
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:351
+msgid "Conexões alteradas."
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:390
+msgid "Detalhes do download"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:408
+msgid "Arquivo"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:410
+msgid "Endereço"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:411
+msgid "Estado"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:413
+msgid "Tamanho"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:416
+msgid "Desconhecido"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:418
+msgid "Recebido"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:420
+msgid "Conexões solicitadas (máximo)"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:425
+msgid "Conexões ativas agora"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:428
+msgid "Velocidade"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:431
+msgid "SHA-256 esperado"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:437
+msgid "Identificador da tarefa"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:438
+msgid "GID no aria2"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:449
+msgid "Tentar com um novo link"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:45
+msgid "Todos"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:450
+msgid "Será criada uma nova tarefa. O arquivo parcial do link anterior não é reaproveitado, porque não há como confirmar que é o mesmo conteúdo."
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:457
+msgid "Criar tarefa"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:46
+msgid "Em andamento"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:47
+msgid "Concluídos"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:470
+msgid "Nova tarefa criada."
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:48
+msgid "Com erro"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:481
+msgid "Excluir arquivo do disco?"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:482
+#, placeholders mantidos entre chaves
+msgid "“{name}” e seus dados parciais serão apagados de {dir} e o item sairá da lista. Isso não pode ser desfeito."
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:489
+msgid "Excluir arquivo"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:502
+msgid "Arquivo excluído."
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:512
+msgid "Pausar tudo e encerrar?"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:513
+msgid "Todos os downloads serão pausados e o serviço em segundo plano será encerrado. Eles poderão ser retomados na próxima vez que você abrir o Lyra Downloads."
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:517
+msgid "Pausar e encerrar"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:573
+msgid "Novo download (Ctrl+N)"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:578
+msgid "Pausar tudo"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:579
+msgid "Retomar tudo"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:583
+msgid "Sobre o Lyra Downloads"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:587
+msgid "Pausar tudo e encerrar o serviço…"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:595
+msgid "Menu principal"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:600
+msgid "Buscar (Ctrl+F)"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:605
+msgid "Buscar por nome ou endereço"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:76
+msgid "Nenhum download"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:77
+msgid "Use “Novo download” ou, no Firefox, “Baixar com Lyra Downloads” no menu de um link. Fechar a janela não interrompe os downloads."
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:79
+msgid "Nada em andamento"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:79
+msgid "Downloads aguardando, baixando ou pausados aparecem aqui."
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:797
+msgid "Projeto Lyra OS"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:80
+msgid "Nenhum download concluído"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:800
+msgid "Gerenciador de downloads com conexões paralelas, usando o motor aria2."
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:81
+msgid "Nenhum erro"
+msgstr ""
+
+#: crates/lyra-downloads-gtk/src/window.rs:81
+msgid "Downloads que falharem aparecem aqui, com a opção de tentar novamente."
+msgstr ""

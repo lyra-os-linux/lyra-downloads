@@ -1,0 +1,33 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/lyra-downloads-core",
+    "crates/lyra-downloads-aria2",
+    "crates/lyra-downloads-ipc",
+    "crates/lyra-downloads-backend",
+    "crates/lyra-downloads-gtk",
+    "crates/lyra-downloads-nativehost",
+    "tools/testserver",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "GPL-3.0-or-later"
+authors = ["Projeto Lyra OS"]
+repository = "https://github.com/lyra-os-linux/lyra-downloads"
+
+[workspace.dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+tokio = { version = "1", features = ["rt-multi-thread", "net", "process", "time", "macros", "sync", "io-util", "fs", "signal"] }
+uuid = { version = "1", features = ["v4", "serde"] }
+sha2 = "0.10"
+rusqlite = { version = "0.32", features = ["chrono"] }
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls-native-roots"] }
+chrono = { version = "0.4", features = ["serde"] }
+dirs = "6"
+gettext-rs = { version = "0.7", features = ["gettext-system"] }

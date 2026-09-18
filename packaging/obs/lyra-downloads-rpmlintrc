@@ -1,0 +1,10 @@
+# O Firefox de 64 bits do openSUSE só procura manifestos globais de native
+# messaging em /usr/lib64/mozilla/native-messaging-hosts (JSON, não binário).
+addFilter("lyra-downloads-firefox-integration.* only-non-binary-in-usr-lib")
+# Fontes em .tar.zst (formato padrão do obs-service-cargo).
+addFilter("inconsistent-file-extension .*\.tar\.zst")
+# rpmlint trunca expressões SPDX compostas no primeiro "WITH": a expressão
+# "(Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT)" (rustix/linux-raw-sys)
+# é SPDX válida, mas gera falsos avisos.
+addFilter("invalid-license-exception LLVM-exception")
+addFilter("invalid-license Apache-2.0$")

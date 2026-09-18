@@ -1,0 +1,7 @@
+{
+  "name": "org.lyraos.downloads",
+  "description": "Lyra Downloads — integração com o Firefox",
+  "path": "@HOST_PATH@",
+  "type": "stdio",
+  "allowed_extensions": ["@EXTENSION_ID@"]
+}

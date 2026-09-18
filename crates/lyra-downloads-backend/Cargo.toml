@@ -1,0 +1,35 @@
+[package]
+name = "lyra-downloads-backend"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+name = "lyra-downloads-backend"
+path = "src/main.rs"
+
+[dependencies]
+lyra-downloads-core = { path = "../lyra-downloads-core" }
+lyra-downloads-aria2 = { path = "../lyra-downloads-aria2" }
+lyra-downloads-ipc = { path = "../lyra-downloads-ipc" }
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+tokio.workspace = true
+uuid.workspace = true
+chrono.workspace = true
+sha2.workspace = true
+reqwest.workspace = true
+libc = "0.2"
+futures-lite = "2"
+zbus = { version = "5", default-features = false, features = ["tokio"] }
+
+[dev-dependencies]
+lyra-downloads-testserver = { path = "../../tools/testserver" }
+tempfile = "3"

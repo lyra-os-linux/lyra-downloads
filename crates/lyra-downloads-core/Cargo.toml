@@ -1,0 +1,20 @@
+[package]
+name = "lyra-downloads-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+uuid.workspace = true
+rusqlite.workspace = true
+chrono.workspace = true
+dirs.workspace = true
+url = "2"
+
+[dev-dependencies]
+tempfile = "3"

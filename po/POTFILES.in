@@ -1,0 +1,8 @@
+crates/lyra-downloads-gtk/src/add_dialog.rs
+crates/lyra-downloads-gtk/src/backend.rs
+crates/lyra-downloads-gtk/src/format.rs
+crates/lyra-downloads-gtk/src/i18n.rs
+crates/lyra-downloads-gtk/src/main.rs
+crates/lyra-downloads-gtk/src/prefs.rs
+crates/lyra-downloads-gtk/src/task_row.rs
+crates/lyra-downloads-gtk/src/window.rs

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.lyraos.Downloads</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>Lyra Downloads</name>
+  <summary>Gerenciador de downloads com conexões paralelas</summary>
+  <description>
+    <p>
+      O Lyra Downloads baixa arquivos por HTTP e HTTPS usando o motor aria2,
+      com várias conexões por download quando o servidor permite. A janela
+      mostra a velocidade total, as conexões ativas e o progresso real de
+      cada transferência.
+    </p>
+    <ul>
+      <li>Perfis de 1, 4, 8 ou 16 conexões por download (um máximo, não uma garantia)</li>
+      <li>Fila com pausa, retomada, cancelamento, nova tentativa e reordenação</li>
+      <li>Retomada após fechar a janela ou reiniciar o computador</li>
+      <li>Conferência opcional de SHA-256 ao concluir</li>
+      <li>Integração opcional com o Firefox</li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">org.lyraos.Downloads.desktop</launchable>
+  <url type="homepage">https://github.com/lyra-os-linux/lyra-downloads</url>
+  <url type="bugtracker">https://github.com/lyra-os-linux/lyra-downloads/issues</url>
+  <developer id="org.lyraos">
+    <name>Projeto Lyra OS</name>
+  </developer>
+  <categories>
+    <category>Network</category>
+    <category>FileTransfer</category>
+  </categories>
+  <requires>
+    <display_length compare="ge">360</display_length>
+  </requires>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </supports>
+  <content_rating type="oars-1.1"/>
+  <translation type="gettext">lyra-downloads</translation>
+  <releases>
+    <release version="0.1.0" date="2026-09-18">
+      <description>
+        <p>Primeira versão: downloads HTTP/HTTPS com aria2, fila persistente, verificação SHA-256 e integração com o Firefox.</p>
+      </description>
+    </release>
+  </releases>
+</component>

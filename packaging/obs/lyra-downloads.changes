@@ -1,0 +1,13 @@
+-------------------------------------------------------------------
+Fri Sep 18 00:00:00 UTC 2026 - rodrigo@lyraos.com.br
+
+- Initial package of Lyra Downloads 0.1.0:
+  * GTK4/libadwaita download manager using a private aria2 instance
+    controlled over JSON-RPC (loopback, random secret).
+  * Per-download connection profiles (1, 4, 8, 16), persistent queue,
+    pause/resume/cancel/retry/reorder, recovery after restart.
+  * Optional SHA-256 verification with explicit match/mismatch states.
+  * Single-instance background service reachable over a user-only Unix
+    socket; closing the window does not stop downloads.
+  * firefox-integration subpackage: native messaging host and global
+    Firefox registration (the extension itself is distributed separately).
