@@ -313,6 +313,14 @@ impl Service {
             })
             .unwrap_or_else(|| sanitize::filename_from_url(&url));
 
+        let mut reserved = self.reserved_paths();
+        if req.reserve_browser_filename {
+            // Firefox pause() can remove its placeholder. A subsequent
+            // cancel() still unlinks that path after the native handoff.
+            // Reserve it even while absent, before starting aria2, so the
+            // browser's cleanup cannot unlink our open/completed file.
+            reserved.insert(dir.join(&filename));
+        }
         let new = NewTask {
             url: url.as_str().to_string(),
             filename,
@@ -320,7 +328,7 @@ impl Service {
             connections,
             expected_sha256,
         };
-        let mut task = core::build_task(new, &self.reserved_paths()).map_err(|e| match e {
+        let mut task = core::build_task(new, &reserved).map_err(|e| match e {
             core::CoreError::InvalidDestination(_) => (
                 ErrorCode::InvalidDestination,
                 "Pasta de destino inválida.".to_string(),
@@ -520,6 +528,7 @@ impl Service {
             source: lyra_downloads_ipc::Source::Interface,
             idempotency_key: None,
             suggested_filename: None,
+            reserve_browser_filename: false,
         };
         self.add(req).await
     }

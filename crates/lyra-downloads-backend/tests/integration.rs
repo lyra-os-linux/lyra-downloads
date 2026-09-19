@@ -77,6 +77,7 @@ fn add(c: &mut BackendClient, url: &str, dir: &Path, conns: u8, sha: Option<&str
         source: Source::Interface,
         idempotency_key: None,
         suggested_filename: None,
+        reserve_browser_filename: false,
     }))
     .unwrap()
 }
@@ -138,6 +139,53 @@ macro_rules! require_aria2 {
             return;
         }
     };
+}
+
+#[test]
+fn firefox_cleanup_cannot_delete_handoff_payload() {
+    require_aria2!();
+    let e = env();
+    let (_rt, srv) = server();
+    let backend = start_backend(&e);
+    let mut c = client(&e);
+    let size = 256 * 1024;
+    // pause() removed Firefox's placeholder before the handoff. Existing
+    // numbered files must also remain untouched by the collision resolver.
+    let original = e.downloads.join("browser.bin");
+    let occupied = e.downloads.join("browser (1).bin");
+    std::fs::write(&occupied, b"existing user file").unwrap();
+    assert!(!original.exists());
+    let request = AddDownload {
+        url: srv.url(&format!("/slow/{size}/server.bin")),
+        filename: None,
+        destination_dir: Some(e.downloads.clone()),
+        connections: Some(1),
+        expected_sha256: None,
+        source: Source::Navegador,
+        idempotency_key: Some("firefox:cleanup-regression".into()),
+        suggested_filename: Some("browser.bin".into()),
+        reserve_browser_filename: true,
+    };
+    let first: AddResult = c.call(Op::AddDownload(request.clone())).unwrap();
+    let again: AddResult = c.call(Op::AddDownload(request)).unwrap();
+    assert!(again.duplicate);
+    assert_eq!(first.task_id, again.task_id);
+    wait_for(&mut c, first.task_id, 30, |t| t.task.downloaded_bytes > 0);
+    // Firefox finalize(true) may unlink the original path at any time.
+    let _ = std::fs::remove_file(&original);
+    let finished = wait_for(&mut c, first.task_id, 30, |t| {
+        t.task.state == TaskState::Concluido
+    });
+    let _: serde_json::Value = c.call(Op::Shutdown).unwrap();
+    backend.join().unwrap();
+    assert_eq!(first.filename, "browser (2).bin");
+    assert_eq!(finished.task.filename, first.filename);
+    assert_eq!(
+        std::fs::read(finished.task.final_path()).unwrap(),
+        lyra_downloads_testserver::content(size)
+    );
+    assert_eq!(std::fs::read(occupied).unwrap(), b"existing user file");
+    assert!(!original.exists());
 }
 
 #[test]
@@ -304,6 +352,7 @@ fn http_errors_are_recoverable_and_described() {
         source: Source::Interface,
         idempotency_key: None,
         suggested_filename: None,
+        reserve_browser_filename: false,
     }));
     assert!(matches!(
         bad,
@@ -323,6 +372,7 @@ fn http_errors_are_recoverable_and_described() {
         source: Source::Navegador,
         idempotency_key: None,
         suggested_filename: None,
+        reserve_browser_filename: false,
     }));
     assert!(matches!(
         bad,
@@ -352,6 +402,7 @@ fn idempotent_browser_requests() {
             source: Source::Navegador,
             idempotency_key: Some(key.into()),
             suggested_filename: None,
+            reserve_browser_filename: false,
         })
     };
     let a: AddResult = c.call(req("ext-1")).unwrap();
@@ -385,6 +436,7 @@ fn browser_cancellation_blocks_late_requests_and_survives_restart() {
             source: Source::Navegador,
             idempotency_key: Some(key.into()),
             suggested_filename: None,
+            reserve_browser_filename: false,
         })
     };
     let cancel = |key: &str| Op::CancelByRequestKey { key: key.into() };

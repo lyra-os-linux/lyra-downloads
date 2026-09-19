@@ -40,6 +40,11 @@
   <content_rating type="oars-1.1"/>
   <translation type="gettext">lyra-downloads</translation>
   <releases>
+    <release version="0.1.2" date="2026-09-19">
+      <description>
+        <p>Preserva o arquivo recebido do Firefox quando os dois aplicativos usam a mesma pasta de downloads.</p>
+      </description>
+    </release>
     <release version="0.1.1" date="2026-09-19">
       <description>
         <p>Corrige a recuperação dos repasses do Firefox, com cancelamento confirmado e proteção contra requisições atrasadas.</p>

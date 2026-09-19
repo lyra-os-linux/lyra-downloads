@@ -43,6 +43,10 @@ pub struct AddDownload {
     /// quando `filename` não é informado.
     #[serde(default)]
     pub suggested_filename: Option<String>,
+    /// Repasse automático: o navegador ainda é dono do nome sugerido e
+    /// pode apagá-lo ao cancelar sua cópia, mesmo se o arquivo não existe.
+    #[serde(default)]
+    pub reserve_browser_filename: bool,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]

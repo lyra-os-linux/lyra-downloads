@@ -34,6 +34,14 @@ da tarefa. Reenviar a mesma chave devolve a mesma tarefa com
 `"duplicate": true`; downloads intencionais posteriores da mesma URL usam
 chaves diferentes e não são bloqueados.
 
+Desde 0.1.2, o native host marca repasses automáticos com
+`add_download.reserve_browser_filename: true` (padrão `false` para clientes
+anteriores e downloads manuais). O backend reserva o nome sugerido mesmo
+quando o arquivo ainda não existe e escolhe um nome livre numerado. Isso
+impede que `downloads.cancel()` do Firefox apague o arquivo do aria2 quando
+ambos usam a mesma pasta. O protocolo da extensão e o schema SQLite não mudam;
+o XPI 0.1.1 funciona com backend/native host 0.1.2.
+
 Desde 0.1.1, `cancel_by_request_key` grava uma revogação mesmo se a tarefa
 ainda não existir. Reenvios tardios dessa chave são recusados, inclusive após
 reiniciar o backend. Uma resposta com `revoked: true` e `completed: false`

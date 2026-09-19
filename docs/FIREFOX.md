@@ -54,5 +54,9 @@ scripts/uninstall-native-host.sh          # desfaz
   autenticação, `blob:`/`data:`, downloads que não podem ser pausados e — se
   não for marcada a opção correspondente — downloads que enviaram cookies.
   O Firefox pode mostrar o início do download por um instante antes do repasse.
+  Desde o backend/native host 0.1.2, o arquivo recebido usa um nome livre
+  numerado, como `imagem (1).iso`: o nome original permanece reservado ao
+  Firefox até ele terminar de limpar sua cópia. Isso evita perder o arquivo
+  quando ambos usam a mesma pasta. A extensão assinada 0.1.1 é compatível.
 
 Detalhes do protocolo e dos estados de repasse: `docs/PROTOCOL.md`.

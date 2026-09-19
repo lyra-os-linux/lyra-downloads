@@ -1,4 +1,14 @@
 -------------------------------------------------------------------
+Sat Sep 19 18:20:00 UTC 2026 - rodrigo@lyraos.com.br
+
+- Update to 0.1.2:
+  * Reserve the Firefox-owned filename during automatic handoff even
+    when pause removed the placeholder, so browser cancellation cannot
+    unlink the file being written by aria2 in the same download folder.
+  * Keep manual downloads unchanged and preserve existing numbered files.
+  * Add a real-aria2 regression for browser cleanup and idempotent handoff.
+
+-------------------------------------------------------------------
 Sat Sep 19 00:00:00 UTC 2026 - rodrigo@lyraos.com.br
 
 - Update to 0.1.1:

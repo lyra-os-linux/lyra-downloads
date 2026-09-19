@@ -360,6 +360,7 @@ pub fn present(
                             key.as_ref().map(|k| format!("{k}-{i}"))
                         },
                         suggested_filename: None,
+                        reserve_browser_filename: false,
                     };
                     match backend::call::<AddResult>(Op::AddDownload(req)).await {
                         Ok(r) => added.push(r.filename),

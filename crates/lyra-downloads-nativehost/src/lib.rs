@@ -235,6 +235,7 @@ pub fn handle_message(raw: &[u8], fx: &mut impl Effects) -> Value {
                 source: lyra_downloads_ipc::Source::Navegador,
                 idempotency_key: Some(format!("firefox:{rid}")),
                 suggested_filename,
+                reserve_browser_filename: true,
             });
             match fx.backend(op) {
                 Ok(r) => ok(rid, json!({ "status": "accepted", "task": r })),
@@ -329,6 +330,10 @@ mod tests {
             self.backend_calls.push(serde_json::to_string(&op).unwrap());
             match op {
                 lyra_downloads_ipc::Op::AddDownload(a) => {
+                    assert!(
+                        a.reserve_browser_filename,
+                        "handoff must protect Firefox's path"
+                    );
                     // Simula a idempotência do backend.
                     let key = a.idempotency_key.unwrap();
                     let n = self.accepted_keys.len();

@@ -157,7 +157,9 @@ fn host_spawns_backend_and_download_survives_host_group_kill() {
         );
         std::thread::sleep(Duration::from_millis(300));
     }
-    let file = iso.home.join("Downloads/via-firefox.iso");
+    let filename = resp["result"]["task"]["filename"].as_str().unwrap();
+    assert_ne!(filename, "via-firefox.iso", "Firefox's path stays reserved");
+    let file = iso.home.join("Downloads").join(filename);
     assert_eq!(
         std::fs::read(file).unwrap(),
         lyra_downloads_testserver::content(6291456)
