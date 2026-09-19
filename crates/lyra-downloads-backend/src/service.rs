@@ -236,6 +236,12 @@ impl Service {
 
     pub async fn add(&mut self, req: AddDownload) -> OpResult {
         if let Some(key) = req.idempotency_key.as_deref() {
+            if self.repo.request_key_revoked(key).map_err(internal)? {
+                return err(
+                    ErrorCode::InvalidState,
+                    "Este repasse foi cancelado pelo navegador.",
+                );
+            }
             if let Some(existing) = self.repo.task_for_request_key(key).map_err(internal)? {
                 let t = self.get(existing)?;
                 return Ok(json!(AddResult {
@@ -423,21 +429,62 @@ impl Service {
     }
 
     pub async fn cancel_by_request_key(&mut self, key: &str) -> OpResult {
+        // O lock do serviço serializa add/cancel. Gravar antes de responder
+        // impede que uma tentativa atrasada crie a tarefa após o cancelamento.
+        self.repo.revoke_request_key(key).map_err(internal)?;
         let Some(id) = self.repo.task_for_request_key(key).map_err(internal)? else {
-            return Ok(json!({ "found": false, "cancelled": false }));
+            return Ok(
+                json!({ "found": false, "cancelled": false, "revoked": true, "completed": false }),
+            );
         };
-        let mut t = self.get(id)?;
-        if t.state.is_terminal() {
-            return Ok(json!({ "found": true, "cancelled": false }));
+        let Some(mut t) = self.repo.get_task(id).map_err(internal)? else {
+            return Ok(
+                json!({ "found": false, "cancelled": false, "revoked": true, "completed": false }),
+            );
+        };
+        if matches!(t.state, TaskState::Concluido | TaskState::Verificando) {
+            return Ok(
+                json!({ "found": true, "cancelled": false, "revoked": true, "completed": true }),
+            );
         }
-        self.cancel(id).await?;
-        t = self.get(id)?;
+        if let Some(gid) = t.aria2_gid.as_deref() {
+            let Some(client) = self.engine_client() else {
+                return err(
+                    ErrorCode::EngineUnavailable,
+                    "Não foi possível confirmar o cancelamento no motor.",
+                );
+            };
+            // forceRemove pode falhar se a tarefa já terminou ou desapareceu.
+            // Falhas de comunicação nunca são convertidas em confirmação.
+            let _ = client.force_remove(gid).await;
+            // Consulta um GID específico: listas separadas de ativos/em fila
+            // não são atômicas e podem perder uma tarefa que mudou de fila.
+            match client.tell_status(gid).await {
+                Ok(status) if status.status == "complete" => {
+                    return Ok(
+                        json!({ "found": true, "cancelled": false, "revoked": true, "completed": true }),
+                    );
+                }
+                Ok(status) if matches!(status.status.as_str(), "removed" | "error") => {}
+                Err(aria2::Aria2Error::Rpc { code: 1, message })
+                    if message == format!("GID {gid} is not found") => {}
+                _ => {
+                    return err(
+                        ErrorCode::EngineUnavailable,
+                        "O motor ainda não confirmou o cancelamento.",
+                    )
+                }
+            }
+        }
+        t.state = TaskState::Cancelado;
+        t.pause_reason = None;
+        self.live.remove(&id);
         t.error_message = Some(
             "O navegador não recebeu a confirmação a tempo; o download continuou no Firefox."
                 .into(),
         );
         self.save(&mut t)?;
-        Ok(json!({ "found": true, "cancelled": true }))
+        Ok(json!({ "found": true, "cancelled": true, "revoked": true, "completed": false }))
     }
 
     pub async fn retry(&mut self, id: Uuid) -> OpResult {

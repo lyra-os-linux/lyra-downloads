@@ -26,7 +26,7 @@ use crate::error::{CoreError, CoreResult};
 use crate::settings::Settings;
 use crate::task::{ConnectionProfile, HashVerification, PauseReason, Task, TaskState};
 
-const SUPPORTED_SCHEMA_VERSION: i64 = 1;
+const SUPPORTED_SCHEMA_VERSION: i64 = 2;
 
 pub struct Repository {
     conn: Mutex<Connection>,
@@ -109,6 +109,18 @@ impl Repository {
             tracing::info!("banco de dados inicializado (schema v1)");
         }
 
+        if version < 2 {
+            conn.execute_batch(
+                "BEGIN;
+                 CREATE TABLE cancelled_requests (
+                     key TEXT PRIMARY KEY,
+                     created_at TEXT NOT NULL
+                 );
+                 PRAGMA user_version = 2;
+                 COMMIT;",
+            )?;
+        }
+
         Ok(())
     }
 
@@ -130,6 +142,25 @@ impl Repository {
             )
             .optional()?;
         Ok(id.and_then(|s| Uuid::parse_str(&s).ok()))
+    }
+
+    /// Revogação persistente: também bloqueia um repasse que ainda não chegou.
+    pub fn revoke_request_key(&self, key: &str) -> CoreResult<()> {
+        let conn = self.conn.lock().unwrap();
+        conn.execute(
+            "INSERT OR IGNORE INTO cancelled_requests (key, created_at) VALUES (?1, ?2)",
+            params![key, chrono::Utc::now().to_rfc3339()],
+        )?;
+        Ok(())
+    }
+
+    pub fn request_key_revoked(&self, key: &str) -> CoreResult<bool> {
+        let conn = self.conn.lock().unwrap();
+        Ok(conn.query_row(
+            "SELECT EXISTS(SELECT 1 FROM cancelled_requests WHERE key = ?1)",
+            params![key],
+            |r| r.get(0),
+        )?)
     }
 
     /// Insere a tarefa e (opcionalmente) a chave de idempotência na mesma
@@ -389,6 +420,42 @@ mod tests {
         let t3 = sample_task();
         repo.insert_task_with_key(&t3, Some("req-2")).unwrap();
         assert_eq!(repo.list_tasks().unwrap().len(), 2);
+    }
+
+    #[test]
+    fn v1_migration_preserves_tasks_settings_and_persists_revocations() {
+        let tmp = tempfile::tempdir().unwrap();
+        let path = tmp.path().join("old.sqlite");
+        let task = sample_task();
+        {
+            let repo = Repository::open(&path).unwrap();
+            repo.insert_task_with_key(&task, Some("existing")).unwrap();
+            repo.save_settings(&Settings {
+                max_concurrent_downloads: 7,
+                ..Default::default()
+            })
+            .unwrap();
+            // Recreate the exact schema v1 layout with populated data.
+            repo.conn
+                .lock()
+                .unwrap()
+                .execute_batch("DROP TABLE cancelled_requests; PRAGMA user_version = 1;")
+                .unwrap();
+        }
+        {
+            let repo = Repository::open(&path).unwrap();
+            assert_eq!(repo.get_task(task.id).unwrap().unwrap().url, task.url);
+            assert_eq!(
+                repo.task_for_request_key("existing").unwrap(),
+                Some(task.id)
+            );
+            assert_eq!(repo.load_settings().unwrap().max_concurrent_downloads, 7);
+            repo.revoke_request_key("late").unwrap();
+            repo.revoke_request_key("late").unwrap();
+        }
+        let repo = Repository::open(&path).unwrap();
+        assert!(repo.request_key_revoked("late").unwrap());
+        assert!(!repo.request_key_revoked("another").unwrap());
     }
 
     #[test]

@@ -14,9 +14,7 @@ use std::io::{self, Read, Write};
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 
-/// ID técnico de DESENVOLVIMENTO da extensão (TLD `.invalid` reservado —
-/// deixa claro que não é um ID de publicação). Substituir antes de uma
-/// distribuição pública; ver docs/FIREFOX.md.
+/// ID definitivo da extensão assinada pela Mozilla; ver docs/FIREFOX.md.
 pub const EXTENSION_ID: &str = "lyra-downloads@lyraos.com.br";
 pub const HOST_NAME: &str = "org.lyraos.downloads";
 pub const PROTOCOL_VERSION: u32 = 1;

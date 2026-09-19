@@ -369,6 +369,93 @@ fn idempotent_browser_requests() {
 }
 
 #[test]
+fn browser_cancellation_blocks_late_requests_and_survives_restart() {
+    require_aria2!();
+    let e = env();
+    let (_rt, srv) = server();
+    let backend = start_backend(&e);
+    let mut c = client(&e);
+    let request = |key: &str, route: &str| {
+        Op::AddDownload(AddDownload {
+            url: srv.url(route),
+            filename: None,
+            destination_dir: Some(e.downloads.clone()),
+            connections: None,
+            expected_sha256: None,
+            source: Source::Navegador,
+            idempotency_key: Some(key.into()),
+            suggested_filename: None,
+        })
+    };
+    let cancel = |key: &str| Op::CancelByRequestKey { key: key.into() };
+    let revoked: serde_json::Value = c.call(cancel("firefox:late")).unwrap();
+    assert_eq!(revoked["revoked"], true);
+    assert_eq!(revoked["found"], false);
+    assert!(c
+        .call::<AddResult>(request("firefox:late", "/file/1000/late.bin"))
+        .is_err());
+    assert!(c.call::<Snapshot>(Op::ListTasks).unwrap().tasks.is_empty());
+
+    let active: AddResult = c
+        .call(request("firefox:active", "/slow/16777216/active.bin"))
+        .unwrap();
+    wait_for(&mut c, active.task_id, 30, |t| t.task.downloaded_bytes > 0);
+    let deadline = Instant::now() + Duration::from_secs(10);
+    loop {
+        match c.call::<serde_json::Value>(cancel("firefox:active")) {
+            Ok(result) => {
+                assert_eq!(result["revoked"], true);
+                assert_eq!(result["cancelled"], true);
+                assert_eq!(result["completed"], false);
+                break;
+            }
+            Err(_) if Instant::now() < deadline => std::thread::sleep(Duration::from_millis(100)),
+            Err(e) => panic!("cancelamento não foi confirmado: {e}"),
+        }
+    }
+    assert_eq!(
+        task(&mut c, active.task_id).task.state,
+        TaskState::Cancelado
+    );
+    assert!(c
+        .call::<AddResult>(request("firefox:active", "/slow/16777216/active.bin"))
+        .is_err());
+
+    let completed: AddResult = c
+        .call(request("firefox:completed", "/file/1000/done.bin"))
+        .unwrap();
+    wait_for(&mut c, completed.task_id, 30, |t| {
+        t.task.state == TaskState::Concluido
+    });
+    let result: serde_json::Value = c.call(cancel("firefox:completed")).unwrap();
+    assert_eq!(result["completed"], true);
+    assert_eq!(
+        task(&mut c, completed.task_id).task.state,
+        TaskState::Concluido
+    );
+    let _: serde_json::Value = c.call(Op::Shutdown).unwrap();
+    drop(c);
+    backend.join().unwrap();
+    let backend = start_backend(&e);
+    let mut c = client(&e);
+    assert!(c
+        .call::<AddResult>(request("firefox:late", "/file/1000/late.bin"))
+        .is_err());
+    assert_eq!(
+        task(&mut c, active.task_id).task.state,
+        TaskState::Cancelado
+    );
+    let unrelated: AddResult = c
+        .call(request("firefox:new", "/file/1000/late.bin"))
+        .unwrap();
+    wait_for(&mut c, unrelated.task_id, 30, |t| {
+        t.task.state == TaskState::Concluido
+    });
+    let _: serde_json::Value = c.call(Op::Shutdown).unwrap();
+    backend.join().unwrap();
+}
+
+#[test]
 fn pause_resume_and_restart_recovery_without_duplicates() {
     require_aria2!();
     let e = env();

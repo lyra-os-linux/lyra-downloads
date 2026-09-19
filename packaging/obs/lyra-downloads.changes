@@ -1,4 +1,13 @@
 -------------------------------------------------------------------
+Sat Sep 19 00:00:00 UTC 2026 - rodrigo@lyraos.com.br
+
+- Update to 0.1.1:
+  * Persist browser handoff revocations, including requests arriving late.
+  * Confirm aria2 cancellation before acknowledging Firefox fallback.
+  * Preserve completed downloads during handoff recovery.
+  * Migrate SQLite schema to v2 without dropping tasks or preferences.
+
+-------------------------------------------------------------------
 Fri Sep 18 20:25:56 UTC 2026 - rodrigo@lyraos.com.br
 
 - firefox-integration: Recommends lyra-firefox-ext, the package that
