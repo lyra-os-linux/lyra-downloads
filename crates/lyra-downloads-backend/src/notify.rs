@@ -2,6 +2,7 @@
 //! ação "Abrir pasta". Funciona mesmo com a janela fechada, porque o
 //! backend continua vivo. Nunca executa o arquivo baixado.
 
+use lyra_downloads_core::i18n::tr;
 use std::collections::HashMap;
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
@@ -70,7 +71,8 @@ impl Notifier {
         let Some(conn) = &self.conn else { return };
         let mut hints: HashMap<&str, Value> = HashMap::new();
         hints.insert("desktop-entry", Value::from("org.lyraos.Downloads"));
-        let actions = vec!["open-folder", "Abrir pasta"];
+        let open_label = tr("Open folder");
+        let actions = vec!["open-folder", open_label.as_str()];
         let reply = conn
             .call_method(
                 Some("org.freedesktop.Notifications"),

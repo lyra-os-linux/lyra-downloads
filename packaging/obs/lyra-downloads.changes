@@ -1,4 +1,12 @@
 -------------------------------------------------------------------
+Mon Sep 21 00:00:00 UTC 2026 - rodrigo@lyraos.com.br
+
+- Update to 0.1.3:
+  * Ship English, Brazilian Portuguese and Spanish catalogs with English fallback.
+  * Translate download errors, notifications and application metadata.
+  * Verify complete catalogs, placeholders and real gettext runtime selection.
+
+-------------------------------------------------------------------
 Sat Sep 19 18:20:00 UTC 2026 - rodrigo@lyraos.com.br
 
 - Update to 0.1.2:

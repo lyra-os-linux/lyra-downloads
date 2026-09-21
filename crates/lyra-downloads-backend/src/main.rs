@@ -30,6 +30,7 @@ fn init_logging() {
 }
 
 fn main() -> ExitCode {
+    lyra_downloads_core::i18n::init();
     init_logging();
     let rt = match tokio::runtime::Builder::new_multi_thread()
         .enable_all()

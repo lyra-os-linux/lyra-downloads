@@ -40,7 +40,7 @@ pub fn present(
     on_added: impl Fn(String) + 'static,
 ) {
     let dialog = adw::Dialog::builder()
-        .title(tr("Novo download"))
+        .title(tr("New download"))
         .content_width(560)
         .follows_content_size(true)
         .build();
@@ -49,9 +49,9 @@ pub fn present(
         .show_end_title_buttons(false)
         .show_start_title_buttons(false)
         .build();
-    let cancel = gtk::Button::with_label(&tr("Cancelar"));
+    let cancel = gtk::Button::with_label(&tr("Cancel"));
     let start = gtk::Button::builder()
-        .label(tr("Baixar"))
+        .label(tr("Download"))
         .css_classes(["suggested-action"])
         .sensitive(false)
         .build();
@@ -63,11 +63,11 @@ pub fn present(
     // --- Endereço ------------------------------------------------------
     let url_group = adw::PreferencesGroup::new();
     let batch_row = adw::SwitchRow::builder()
-        .title(tr("Vários links"))
-        .subtitle(tr("Um endereço por linha, com as mesmas opções"))
+        .title(tr("Multiple links"))
+        .subtitle(tr("One address per line, with the same options"))
         .build();
     let url_row = adw::EntryRow::builder()
-        .title(tr("Endereço (http:// ou https://)"))
+        .title(tr("Address (http:// or https://)"))
         .build();
     url_row.set_input_purpose(gtk::InputPurpose::Url);
     let batch_view = gtk::TextView::builder()
@@ -79,7 +79,7 @@ pub fn present(
         .monospace(true)
         .build();
     batch_view.update_property(&[gtk::accessible::Property::Label(&tr(
-        "Endereços, um por linha",
+        "Addresses, one per line",
     ))]);
     let batch_scroller = gtk::ScrolledWindow::builder()
         .child(&batch_view)
@@ -87,9 +87,7 @@ pub fn present(
         .css_classes(["card"])
         .visible(false)
         .build();
-    let name_row = adw::EntryRow::builder()
-        .title(tr("Nome do arquivo"))
-        .build();
+    let name_row = adw::EntryRow::builder().title(tr("File name")).build();
     let probe_label = gtk::Label::builder()
         .xalign(0.0)
         .wrap(true)
@@ -104,24 +102,26 @@ pub fn present(
     url_group.add(&probe_label);
 
     // --- Opções --------------------------------------------------------
-    let opt_group = adw::PreferencesGroup::builder().title(tr("Opções")).build();
+    let opt_group = adw::PreferencesGroup::builder()
+        .title(tr("Options"))
+        .build();
     let folder: Rc<RefCell<PathBuf>> =
         Rc::new(RefCell::new(settings.default_destination_dir.clone()));
     let folder_row = adw::ActionRow::builder()
-        .title(tr("Pasta"))
+        .title(tr("Folder"))
         .subtitle(folder.borrow().to_string_lossy().to_string())
         .subtitle_selectable(true)
         .build();
     let folder_btn = gtk::Button::builder()
-        .label(tr("Escolher…"))
+        .label(tr("Choose…"))
         .valign(gtk::Align::Center)
         .build();
     folder_row.add_suffix(&folder_btn);
 
     let conn_model = gtk::StringList::new(&["1", "4", "8", "16"]);
     let conn_row = adw::ComboRow::builder()
-        .title(tr("Conexões"))
-        .subtitle(tr("Máximo solicitado ao servidor; ele pode aceitar menos"))
+        .title(tr("Connections"))
+        .subtitle(tr("Maximum requested from the server; it may accept fewer"))
         .model(&conn_model)
         .build();
     let default_idx = PROFILES
@@ -131,10 +131,10 @@ pub fn present(
     conn_row.set_selected(default_idx as u32);
 
     let sha_row = adw::EntryRow::builder()
-        .title(tr("SHA-256 esperado (opcional)"))
+        .title(tr("Expected SHA-256 (optional)"))
         .build();
     let sha_hint = gtk::Label::builder()
-        .label(tr("A conferência só indica que o arquivo corresponde ao hash informado; a confiança depende de onde o hash veio."))
+        .label(tr("Verification only confirms that the file matches the supplied hash; trust depends on where the hash came from."))
         .xalign(0.0)
         .wrap(true)
         .css_classes(["dim-label", "caption"])
@@ -233,7 +233,7 @@ pub fn present(
                 if probe_gen.get() != generation {
                     return;
                 }
-                probe_label.set_label(&tr("Consultando o servidor…"));
+                probe_label.set_label(&tr("Contacting the server…"));
                 probe_label.set_visible(true);
                 glib::spawn_future_local(async move {
                     let res = backend::call::<ProbeResult>(Op::Probe { url }).await;
@@ -246,12 +246,12 @@ pub fn present(
                                 name_row.set_text(&p.filename);
                             }
                             let mut info = match p.size {
-                                Some(s) => trf("Tamanho informado pelo servidor: {s}", &[("s", &format::bytes(s))]),
-                                None => tr("O servidor não informou o tamanho."),
+                                Some(s) => trf("Size reported by the server: {s}", &[("s", &format::bytes(s))]),
+                                None => tr("The server did not report the size."),
                             };
                             if p.accepts_ranges == Some(false) {
                                 info.push(' ');
-                                info.push_str(&tr("Ele não aceita transferência em partes: apenas uma conexão será usada."));
+                                info.push_str(&tr("The server does not support downloading in parts: only one connection will be used."));
                             }
                             probe_label.set_label(&info);
                         }
@@ -266,7 +266,7 @@ pub fn present(
         let (folder, folder_row, dialog) = (folder.clone(), folder_row.clone(), dialog.clone());
         move |_| {
             let fd = gtk::FileDialog::builder()
-                .title(tr("Escolher pasta de destino"))
+                .title(tr("Choose destination folder"))
                 .modal(true)
                 .build();
             fd.set_initial_folder(Some(&gio::File::for_path(&*folder.borrow())));
@@ -310,7 +310,7 @@ pub fn present(
             if !sha.is_empty() && !(sha.len() == 64 && sha.chars().all(|c| c.is_ascii_hexdigit())) {
                 show_error(
                     &error_label,
-                    &tr("O SHA-256 esperado deve ter 64 dígitos hexadecimais."),
+                    &tr("The expected SHA-256 must contain 64 hexadecimal digits."),
                 );
                 return;
             }
@@ -369,19 +369,16 @@ pub fn present(
                 }
                 if failures.is_empty() {
                     let msg = if added.len() == 1 {
-                        trf("Download adicionado: {name}", &[("name", &added[0])])
+                        trf("Download added: {name}", &[("name", &added[0])])
                     } else {
-                        trf(
-                            "{n} downloads adicionados",
-                            &[("n", &added.len().to_string())],
-                        )
+                        trf("{n} downloads added", &[("n", &added.len().to_string())])
                     };
                     on_added(msg);
                     dialog.close();
                 } else {
                     if !added.is_empty() {
                         on_added(trf(
-                            "{n} downloads adicionados",
+                            "{n} downloads added",
                             &[("n", &added.len().to_string())],
                         ));
                     }

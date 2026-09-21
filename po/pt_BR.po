@@ -1,821 +1,858 @@
-# Modelo de tradução do Lyra Downloads.
-# Source language and fallback: English (United States).
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: lyra-downloads\n"
-"Report-Msgid-Bugs-To: https://github.com/lyra-os-linux/lyra-downloads/issues\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Project-Id-Version: lyra-downloads 0.1.3\n"
+"Report-Msgid-Bugs-To: https://github.com/lyra-os-linux/lyra-downloads/"
+"issues\n"
+"PO-Revision-Date: 2026-09-21 16:30+0000\n"
+"Last-Translator: Lyra OS <rodrigo@lyraos.com.br>\n"
+"Language-Team: pt_BR\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: crates/lyra-downloads-aria2/src/errors.rs:29
 msgid "Timed out while contacting the server."
-msgstr ""
+msgstr "Tempo de espera esgotado ao falar com o servidor."
 
 #: crates/lyra-downloads-aria2/src/errors.rs:31
 msgid "Resource not found on the server (for example, HTTP 404)."
-msgstr ""
+msgstr "Recurso não encontrado no servidor (por exemplo, HTTP 404)."
 
 #: crates/lyra-downloads-aria2/src/errors.rs:34
 msgid "The server repeatedly responded \"not found\"."
-msgstr ""
+msgstr "O servidor respondeu \"não encontrado\" repetidamente."
 
 #: crates/lyra-downloads-aria2/src/errors.rs:36
 msgid "The speed fell below the configured minimum."
-msgstr ""
+msgstr "A velocidade ficou abaixo do mínimo configurado."
 
 #: crates/lyra-downloads-aria2/src/errors.rs:39
 msgid "Network problem while downloading."
-msgstr ""
+msgstr "Problema de rede ao baixar."
 
 #: crates/lyra-downloads-aria2/src/errors.rs:41
 msgid "The server does not support resuming a partial download."
-msgstr ""
+msgstr "O servidor não aceita retomar a partir do ponto parcial."
 
 #: crates/lyra-downloads-aria2/src/errors.rs:44
 msgid "Not enough disk space at the destination."
-msgstr ""
+msgstr "Espaço em disco insuficiente no destino."
 
 #: crates/lyra-downloads-aria2/src/errors.rs:46
 msgid "The .aria2 control file does not match the download."
-msgstr ""
+msgstr "O arquivo de controle .aria2 não corresponde ao download."
 
 #: crates/lyra-downloads-aria2/src/errors.rs:49
 msgid "Another task is already downloading this file."
-msgstr ""
+msgstr "Este arquivo já está sendo baixado por outra tarefa."
 
 #: crates/lyra-downloads-aria2/src/errors.rs:51
 msgid "A file with this name already exists at the destination."
-msgstr ""
+msgstr "Já existe um arquivo com este nome no destino."
 
 #: crates/lyra-downloads-aria2/src/errors.rs:54
 msgid "Could not rename the file."
-msgstr ""
+msgstr "Não foi possível renomear o arquivo."
 
 #: crates/lyra-downloads-aria2/src/errors.rs:55
 msgid "Could not open the existing partial file."
-msgstr ""
+msgstr "Não foi possível abrir o arquivo parcial existente."
 
 #: crates/lyra-downloads-aria2/src/errors.rs:57
 msgid "Could not create the file at the destination (check permissions)."
-msgstr ""
+msgstr "Não foi possível criar o arquivo no destino (verifique permissões)."
 
 #: crates/lyra-downloads-aria2/src/errors.rs:60
 msgid "Disk read/write error."
-msgstr ""
+msgstr "Erro de leitura/escrita no disco."
 
 #: crates/lyra-downloads-aria2/src/errors.rs:61
 msgid "Could not create the destination folder."
-msgstr ""
+msgstr "Não foi possível criar a pasta de destino."
 
 #: crates/lyra-downloads-aria2/src/errors.rs:62
 msgid "Could not resolve the server name (DNS)."
-msgstr ""
+msgstr "Falha ao resolver o nome do servidor (DNS)."
 
 #: crates/lyra-downloads-aria2/src/errors.rs:64
 msgid "The server denied access or responded unexpectedly."
-msgstr ""
+msgstr "O servidor recusou o acesso ou respondeu de forma inesperada."
 
 #: crates/lyra-downloads-aria2/src/errors.rs:67
 msgid "Too many redirects."
-msgstr ""
+msgstr "Redirecionamentos demais."
 
 #: crates/lyra-downloads-aria2/src/errors.rs:68
 msgid "The server requires authentication."
-msgstr ""
+msgstr "O servidor exigiu autenticação."
 
 #: crates/lyra-downloads-aria2/src/errors.rs:70
 msgid "Invalid option sent to the engine (internal error)."
-msgstr ""
+msgstr "Opção inválida enviada ao motor (erro interno)."
 
 #: crates/lyra-downloads-aria2/src/errors.rs:74
-msgid "The server is temporarily unavailable or overloaded (for example, HTTP 429/503)."
+msgid ""
+"The server is temporarily unavailable or overloaded (for example, HTTP "
+"429/503)."
 msgstr ""
+"O servidor está temporariamente indisponível ou sobrecarregado (por exemplo, "
+"HTTP 429/503)."
 
 #: crates/lyra-downloads-aria2/src/errors.rs:77
 msgid "The engine integrity check failed."
-msgstr ""
+msgstr "A verificação de integridade do motor falhou."
 
 #: crates/lyra-downloads-aria2/src/errors.rs:78
 msgid "The download engine reported an error."
-msgstr ""
+msgstr "O motor de download informou um erro."
 
-#: crates/lyra-downloads-backend/src/service.rs:1114 crates/lyra-downloads-backend/src/service.rs:1175
+#: crates/lyra-downloads-backend/src/service.rs:1114
+#: crates/lyra-downloads-backend/src/service.rs:1175
 msgid "Download finished"
-msgstr ""
+msgstr "Download concluído"
 
 #: crates/lyra-downloads-backend/src/service.rs:1141
-#, placeholders mantidos entre chaves
 msgid "{name} — SHA-256 matches the supplied value"
-msgstr ""
+msgstr "{name} — SHA-256 confere com o valor informado"
 
 #: crates/lyra-downloads-backend/src/service.rs:1149
-#, placeholders mantidos entre chaves
-msgid "{name} — SHA-256 does not match. The file was kept; verify the source of the hash and file."
+msgid ""
+"{name} — SHA-256 does not match. The file was kept; verify the source of the "
+"hash and file."
 msgstr ""
+"{name} — SHA-256 não confere. O arquivo foi mantido; confira a origem do "
+"hash e do arquivo."
 
 #: crates/lyra-downloads-backend/src/service.rs:1154
-#, placeholders mantidos entre chaves
 msgid "Could not read the file to verify SHA-256: {e}"
-msgstr ""
+msgstr "Não foi possível ler o arquivo para verificar o SHA-256: {e}"
 
 #: crates/lyra-downloads-backend/src/service.rs:1162
-#, placeholders mantidos entre chaves
 msgid "Internal verification error: {e}"
-msgstr ""
+msgstr "Falha interna na verificação: {e}"
 
 #: crates/lyra-downloads-backend/src/service.rs:134
-msgid "The aria2 engine failed repeatedly. Downloads are stopped; use \"Retry\" or restart Lyra Downloads."
+msgid ""
+"The aria2 engine failed repeatedly. Downloads are stopped; use \"Retry\" or "
+"restart Lyra Downloads."
 msgstr ""
+"O motor aria2 falhou várias vezes seguidas. Os downloads estão parados; use "
+"\"Tentar novamente\" ou reinicie o Lyra Downloads."
 
 #: crates/lyra-downloads-backend/src/service.rs:157
 msgid "The aria2 download engine is not installed. Install the aria2 package."
-msgstr ""
+msgstr "O motor de downloads aria2 não está instalado. Instale o pacote aria2."
 
 #: crates/lyra-downloads-backend/src/service.rs:161
 msgid "The aria2 download engine did not respond in time."
-msgstr ""
+msgstr "O motor de downloads aria2 não respondeu a tempo."
 
 #: crates/lyra-downloads-backend/src/service.rs:163
-#, placeholders mantidos entre chaves
 msgid "Could not start the aria2 download engine: {detail}"
-msgstr ""
+msgstr "Não foi possível iniciar o motor de downloads aria2: {detail}"
 
 #: crates/lyra-downloads-backend/src/service.rs:198
 msgid "Task not found."
-msgstr ""
+msgstr "Tarefa não encontrada."
 
 #: crates/lyra-downloads-backend/src/service.rs:234
-#, placeholders mantidos entre chaves
 msgid "The engine rejected the download: {e}"
-msgstr ""
+msgstr "O motor recusou o download: {e}"
 
 #: crates/lyra-downloads-backend/src/service.rs:244
-#, placeholders mantidos entre chaves
 msgid "Engine unavailable: {e}"
-msgstr ""
+msgstr "Motor indisponível: {e}"
 
 #: crates/lyra-downloads-backend/src/service.rs:261
 msgid "This handoff was cancelled by the browser."
-msgstr ""
+msgstr "Este repasse foi cancelado pelo navegador."
 
-#: crates/lyra-downloads-backend/src/service.rs:279 crates/lyra-downloads-backend/src/service.rs:1192
+#: crates/lyra-downloads-backend/src/service.rs:279
+#: crates/lyra-downloads-backend/src/service.rs:1192
 msgid "Enter a valid http:// or https:// address."
-msgstr ""
+msgstr "Informe um endereço http:// ou https:// válido."
 
 #: crates/lyra-downloads-backend/src/service.rs:286
 msgid "The address has no valid server."
-msgstr ""
+msgstr "O endereço não tem um servidor válido."
 
-#: crates/lyra-downloads-backend/src/service.rs:303 crates/lyra-downloads-backend/src/service.rs:674
+#: crates/lyra-downloads-backend/src/service.rs:303
+#: crates/lyra-downloads-backend/src/service.rs:674
 msgid "Invalid connection count (use 1, 4, 8 or 16)."
-msgstr ""
+msgstr "Número de conexões inválido (use 1, 4, 8 ou 16)."
 
 #: crates/lyra-downloads-backend/src/service.rs:316
 msgid "The expected SHA-256 must have 64 hexadecimal digits."
-msgstr ""
+msgstr "O SHA-256 esperado deve ter 64 dígitos hexadecimais."
 
 #: crates/lyra-downloads-backend/src/service.rs:353
 msgid "Invalid destination folder."
-msgstr ""
+msgstr "Pasta de destino inválida."
 
 #: crates/lyra-downloads-backend/src/service.rs:389
 msgid "This task cannot be paused now."
-msgstr ""
+msgstr "Esta tarefa não pode ser pausada agora."
 
 #: crates/lyra-downloads-backend/src/service.rs:410
 msgid "Only paused downloads can be resumed."
-msgstr ""
+msgstr "Apenas downloads pausados podem ser retomados."
 
 #: crates/lyra-downloads-backend/src/service.rs:432
-#, placeholders mantidos entre chaves
 msgid "Could not resume: {e}"
-msgstr ""
+msgstr "Não foi possível retomar: {e}"
 
 #: crates/lyra-downloads-backend/src/service.rs:448
 msgid "This task has already finished."
-msgstr ""
+msgstr "Esta tarefa já terminou."
 
 #: crates/lyra-downloads-backend/src/service.rs:484
 msgid "Could not confirm cancellation with the download engine."
-msgstr ""
+msgstr "Não foi possível confirmar o cancelamento no motor."
 
 #: crates/lyra-downloads-backend/src/service.rs:504
 msgid "The download engine has not confirmed cancellation yet."
-msgstr ""
+msgstr "O motor ainda não confirmou o cancelamento."
 
 #: crates/lyra-downloads-backend/src/service.rs:513
-msgid "The browser did not receive confirmation in time; the download continued in Firefox."
+msgid ""
+"The browser did not receive confirmation in time; the download continued in "
+"Firefox."
 msgstr ""
+"O navegador não recebeu a confirmação a tempo; o download continuou no "
+"Firefox."
 
 #: crates/lyra-downloads-backend/src/service.rs:525
 msgid "Only failed or cancelled downloads can be retried."
-msgstr ""
+msgstr "Só é possível tentar novamente downloads com erro ou cancelados."
 
 #: crates/lyra-downloads-backend/src/service.rs:563
 msgid "Cancel the download before removing it from the list."
-msgstr ""
+msgstr "Cancele o download antes de removê-lo da lista."
 
 #: crates/lyra-downloads-backend/src/service.rs:579
 msgid "Cancel the download before deleting the file."
-msgstr ""
+msgstr "Cancele o download antes de excluir o arquivo."
 
 #: crates/lyra-downloads-backend/src/service.rs:586
 msgid "Invalid file path; nothing was deleted."
-msgstr ""
+msgstr "Caminho do arquivo inválido; nada foi excluído."
 
 #: crates/lyra-downloads-backend/src/service.rs:598
-#, placeholders mantidos entre chaves
 msgid "Could not delete {path}: {e}"
-msgstr ""
+msgstr "Não foi possível excluir {path}: {e}"
 
 #: crates/lyra-downloads-backend/src/service.rs:608
 msgid "The destination is not a regular file; nothing was deleted."
-msgstr ""
+msgstr "O destino não é um arquivo comum; nada foi excluído."
 
 #: crates/lyra-downloads-backend/src/service.rs:632
 msgid "Only queued downloads can be reordered."
-msgstr ""
+msgstr "Só é possível reordenar downloads aguardando."
 
 #: crates/lyra-downloads-backend/src/service.rs:681
 msgid "Connections cannot be changed for a finished task."
-msgstr ""
+msgstr "Não é possível alterar conexões de uma tarefa encerrada."
 
-#: crates/lyra-downloads-backend/src/service.rs:706 crates/lyra-downloads-backend/src/service.rs:718
-#, placeholders mantidos entre chaves
+#: crates/lyra-downloads-backend/src/service.rs:706
+#: crates/lyra-downloads-backend/src/service.rs:718
 msgid "The engine rejected the change: {e}"
-msgstr ""
+msgstr "O motor não aceitou a alteração: {e}"
 
 #: crates/lyra-downloads-backend/src/service.rs:75
-#, placeholders mantidos entre chaves
 msgid "Download service error: {detail}"
-msgstr ""
+msgstr "Erro do serviço de downloads: {detail}"
 
 #: crates/lyra-downloads-backend/src/service.rs:766
 msgid "Simultaneous downloads must be between 1 and 10."
-msgstr ""
+msgstr "Downloads simultâneos deve estar entre 1 e 10."
 
 #: crates/lyra-downloads-backend/src/service.rs:863
 msgid "The aria2 engine stopped responding; restarting."
-msgstr ""
+msgstr "O motor aria2 parou de responder; reiniciando."
 
 #: crates/lyra-downloads-backend/src/service.rs:875
 msgid "The destination folder must be an absolute path."
-msgstr ""
+msgstr "A pasta de destino precisa ser um caminho absoluto."
 
 #: crates/lyra-downloads-backend/src/service.rs:881
-#, placeholders mantidos entre chaves
 msgid "The destination folder does not exist: {path}"
-msgstr ""
+msgstr "A pasta de destino não existe: {path}"
 
 #: crates/lyra-downloads-backend/src/service.rs:891
 msgid "Invalid destination path."
-msgstr ""
+msgstr "Caminho de destino inválido."
 
 #: crates/lyra-downloads-backend/src/service.rs:897
-#, placeholders mantidos entre chaves
 msgid "No write permission for {path}"
-msgstr ""
+msgstr "Sem permissão de escrita em {path}"
 
 #: crates/lyra-downloads-backend/src/service.rs:916
-msgid " The link may have expired, the resource may require a login, or access may be blocked."
+msgid ""
+" The link may have expired, the resource may require a login, or access may "
+"be blocked."
 msgstr ""
+" Pode ser um link expirado, um recurso que exige login ou um bloqueio para "
+"este acesso."
 
 #: crates/lyra-downloads-backend/src/service.rs:917
 msgid " The file may have been removed or the link may be incorrect."
-msgstr ""
+msgstr " O arquivo pode ter sido removido ou o link estar incorreto."
 
 #: crates/lyra-downloads-backend/src/service.rs:918
-msgid " The server requested fewer requests; try later or use fewer connections."
+msgid ""
+" The server requested fewer requests; try later or use fewer connections."
 msgstr ""
+" O servidor pediu para diminuir o ritmo de requisições; tente mais tarde ou "
+"com menos conexões."
 
 #: crates/lyra-downloads-backend/src/service.rs:919
 msgid " Server error; this is usually temporary."
-msgstr ""
+msgstr " Erro no servidor; costuma ser temporário."
 
 #: crates/lyra-downloads-core/src/i18n.rs:12
-#, placeholders mantidos entre chaves
 msgid "{n} items"
-msgstr ""
+msgstr "{n} itens"
 
 #: crates/lyra-downloads-gtk/src/add_dialog.rs:106
 msgid "Options"
-msgstr ""
+msgstr "Opções"
 
-#: crates/lyra-downloads-gtk/src/add_dialog.rs:111 crates/lyra-downloads-gtk/src/window.rs:413
+#: crates/lyra-downloads-gtk/src/add_dialog.rs:111
+#: crates/lyra-downloads-gtk/src/window.rs:413
 msgid "Folder"
-msgstr ""
+msgstr "Pasta"
 
-#: crates/lyra-downloads-gtk/src/add_dialog.rs:116 crates/lyra-downloads-gtk/src/prefs.rs:42
+#: crates/lyra-downloads-gtk/src/add_dialog.rs:116
+#: crates/lyra-downloads-gtk/src/prefs.rs:42
 msgid "Choose…"
-msgstr ""
+msgstr "Escolher…"
 
-#: crates/lyra-downloads-gtk/src/add_dialog.rs:123 crates/lyra-downloads-gtk/src/window.rs:286
+#: crates/lyra-downloads-gtk/src/add_dialog.rs:123
+#: crates/lyra-downloads-gtk/src/window.rs:286
 msgid "Connections"
-msgstr ""
+msgstr "Conexões"
 
 #: crates/lyra-downloads-gtk/src/add_dialog.rs:124
 msgid "Maximum requested from the server; it may accept fewer"
-msgstr ""
+msgstr "Máximo solicitado ao servidor; ele pode aceitar menos"
 
 #: crates/lyra-downloads-gtk/src/add_dialog.rs:134
 msgid "Expected SHA-256 (optional)"
-msgstr ""
+msgstr "SHA-256 esperado (opcional)"
 
 #: crates/lyra-downloads-gtk/src/add_dialog.rs:137
-msgid "Verification only confirms that the file matches the supplied hash; trust depends on where the hash came from."
+msgid ""
+"Verification only confirms that the file matches the supplied hash; trust "
+"depends on where the hash came from."
 msgstr ""
+"A conferência só indica que o arquivo corresponde ao hash informado; a "
+"confiança depende de onde o hash veio."
 
 #: crates/lyra-downloads-gtk/src/add_dialog.rs:236
 msgid "Contacting the server…"
-msgstr ""
+msgstr "Consultando o servidor…"
 
 #: crates/lyra-downloads-gtk/src/add_dialog.rs:249
-#, placeholders mantidos entre chaves
 msgid "Size reported by the server: {s}"
-msgstr ""
+msgstr "Tamanho informado pelo servidor: {s}"
 
 #: crates/lyra-downloads-gtk/src/add_dialog.rs:250
 msgid "The server did not report the size."
-msgstr ""
+msgstr "O servidor não informou o tamanho."
 
 #: crates/lyra-downloads-gtk/src/add_dialog.rs:254
-msgid "The server does not support downloading in parts: only one connection will be used."
-msgstr ""
+msgid ""
+"The server does not support downloading in parts: only one connection will "
+"be used."
+msgstr "Ele não aceita transferência em partes: apenas uma conexão será usada."
 
 #: crates/lyra-downloads-gtk/src/add_dialog.rs:269
 msgid "Choose destination folder"
-msgstr ""
+msgstr "Escolher pasta de destino"
 
 #: crates/lyra-downloads-gtk/src/add_dialog.rs:313
 msgid "The expected SHA-256 must contain 64 hexadecimal digits."
-msgstr ""
+msgstr "O SHA-256 esperado deve ter 64 dígitos hexadecimais."
 
 #: crates/lyra-downloads-gtk/src/add_dialog.rs:372
-#, placeholders mantidos entre chaves
 msgid "Download added: {name}"
-msgstr ""
+msgstr "Download adicionado: {name}"
 
-#: crates/lyra-downloads-gtk/src/add_dialog.rs:374 crates/lyra-downloads-gtk/src/add_dialog.rs:380
-#, placeholders mantidos entre chaves
+#: crates/lyra-downloads-gtk/src/add_dialog.rs:374
+#: crates/lyra-downloads-gtk/src/add_dialog.rs:380
 msgid "{n} downloads added"
-msgstr ""
+msgstr "{n} downloads adicionados"
 
-#: crates/lyra-downloads-gtk/src/add_dialog.rs:43 crates/lyra-downloads-gtk/src/window.rs:568 crates/lyra-downloads-gtk/src/window.rs:713
+#: crates/lyra-downloads-gtk/src/add_dialog.rs:43
+#: crates/lyra-downloads-gtk/src/window.rs:568
+#: crates/lyra-downloads-gtk/src/window.rs:713
 msgid "New download"
-msgstr ""
+msgstr "Novo download"
 
-#: crates/lyra-downloads-gtk/src/add_dialog.rs:52 crates/lyra-downloads-gtk/src/window.rs:463 crates/lyra-downloads-gtk/src/window.rs:493 crates/lyra-downloads-gtk/src/window.rs:518
+#: crates/lyra-downloads-gtk/src/add_dialog.rs:52
+#: crates/lyra-downloads-gtk/src/window.rs:463
+#: crates/lyra-downloads-gtk/src/window.rs:493
+#: crates/lyra-downloads-gtk/src/window.rs:518
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: crates/lyra-downloads-gtk/src/add_dialog.rs:54
 msgid "Download"
-msgstr ""
+msgstr "Baixar"
 
 #: crates/lyra-downloads-gtk/src/add_dialog.rs:66
 msgid "Multiple links"
-msgstr ""
+msgstr "Vários links"
 
 #: crates/lyra-downloads-gtk/src/add_dialog.rs:67
 msgid "One address per line, with the same options"
-msgstr ""
+msgstr "Um endereço por linha, com as mesmas opções"
 
 #: crates/lyra-downloads-gtk/src/add_dialog.rs:70
 msgid "Address (http:// or https://)"
-msgstr ""
+msgstr "Endereço (http:// ou https://)"
 
 #: crates/lyra-downloads-gtk/src/add_dialog.rs:81
 msgid "Addresses, one per line"
-msgstr ""
+msgstr "Endereços, um por linha"
 
 #: crates/lyra-downloads-gtk/src/add_dialog.rs:90
 msgid "File name"
-msgstr ""
+msgstr "Nome do arquivo"
 
 #: crates/lyra-downloads-gtk/src/backend.rs:15
 msgid "Internal error while contacting the download service."
-msgstr ""
+msgstr "Falha interna ao falar com o serviço de downloads."
 
 #: crates/lyra-downloads-gtk/src/backend.rs:17
-#, placeholders mantidos entre chaves
 msgid "Download service unavailable: {detail}"
-msgstr ""
+msgstr "Serviço de downloads indisponível: {detail}"
 
 #: crates/lyra-downloads-gtk/src/backend.rs:21
-#, placeholders mantidos entre chaves
 msgid "Could not communicate with the download service: {detail}"
-msgstr ""
+msgstr "Não foi possível falar com o serviço de downloads: {detail}"
 
 #: crates/lyra-downloads-gtk/src/backend.rs:25
-#, placeholders mantidos entre chaves
 msgid "Invalid response from the download service: {detail}"
-msgstr ""
+msgstr "Resposta inválida do serviço de downloads: {detail}"
 
 #: crates/lyra-downloads-gtk/src/format.rs:21
 msgid "."
-msgstr ""
+msgstr ","
 
 #: crates/lyra-downloads-gtk/src/prefs.rs:113
 msgid "Choose default folder"
-msgstr ""
+msgstr "Escolher pasta padrão"
 
-#: crates/lyra-downloads-gtk/src/prefs.rs:25 crates/lyra-downloads-gtk/src/window.rs:582
+#: crates/lyra-downloads-gtk/src/prefs.rs:25
+#: crates/lyra-downloads-gtk/src/window.rs:582
 msgid "Preferences"
-msgstr ""
+msgstr "Preferências"
 
 #: crates/lyra-downloads-gtk/src/prefs.rs:30
 msgid "Downloads"
-msgstr ""
+msgstr "Downloads"
 
 #: crates/lyra-downloads-gtk/src/prefs.rs:33
 msgid "Default folder"
-msgstr ""
+msgstr "Pasta padrão"
 
 #: crates/lyra-downloads-gtk/src/prefs.rs:47
 msgid "Connections per download"
-msgstr ""
+msgstr "Conexões por download"
 
 #: crates/lyra-downloads-gtk/src/prefs.rs:48
 msgid "Default for new downloads; a maximum, not a guarantee"
-msgstr ""
+msgstr "Padrão para novos downloads; é um máximo, não uma garantia"
 
 #: crates/lyra-downloads-gtk/src/prefs.rs:58
 msgid "Simultaneous downloads"
-msgstr ""
+msgstr "Downloads simultâneos"
 
 #: crates/lyra-downloads-gtk/src/prefs.rs:59
 msgid "Independent of the number of connections for each download"
-msgstr ""
+msgstr "Independente do número de conexões de cada download"
 
 #: crates/lyra-downloads-gtk/src/prefs.rs:72
 msgid "Total speed limit (KiB/s)"
-msgstr ""
+msgstr "Limite de velocidade total (KiB/s)"
 
 #: crates/lyra-downloads-gtk/src/prefs.rs:73
 msgid "0 = unlimited"
-msgstr ""
+msgstr "0 = sem limite"
 
 #: crates/lyra-downloads-gtk/src/prefs.rs:89
 msgid "Behavior"
-msgstr ""
+msgstr "Comportamento"
 
 #: crates/lyra-downloads-gtk/src/prefs.rs:92
 msgid "Resume downloads automatically"
-msgstr ""
+msgstr "Retomar downloads automaticamente"
 
 #: crates/lyra-downloads-gtk/src/prefs.rs:93
-msgid "When reopening after restarting the computer. Downloads you paused stay paused."
+msgid ""
+"When reopening after restarting the computer. Downloads you paused stay "
+"paused."
 msgstr ""
+"Ao reabrir após reiniciar o computador. Downloads pausados por você "
+"continuam pausados."
 
 #: crates/lyra-downloads-gtk/src/prefs.rs:99
 msgid "Notify when finished"
-msgstr ""
+msgstr "Notificar ao concluir"
 
 #: crates/lyra-downloads-gtk/src/task_row.rs:102
 msgid "Pause"
-msgstr ""
+msgstr "Pausar"
 
 #: crates/lyra-downloads-gtk/src/task_row.rs:103
 msgid "Resume"
-msgstr ""
+msgstr "Retomar"
 
 #: crates/lyra-downloads-gtk/src/task_row.rs:104
 msgid "Cancel transfer"
-msgstr ""
+msgstr "Cancelar transferência"
 
 #: crates/lyra-downloads-gtk/src/task_row.rs:105
 msgid "Try again"
-msgstr ""
+msgstr "Tentar novamente"
 
-#: crates/lyra-downloads-gtk/src/task_row.rs:106 crates/lyra-downloads-backend/src/notify.rs:74
+#: crates/lyra-downloads-gtk/src/task_row.rs:106
+#: crates/lyra-downloads-backend/src/notify.rs:74
 msgid "Open folder"
-msgstr ""
+msgstr "Abrir pasta"
 
-#: crates/lyra-downloads-gtk/src/task_row.rs:109 crates/lyra-downloads-gtk/src/task_row.rs:113
+#: crates/lyra-downloads-gtk/src/task_row.rs:109
+#: crates/lyra-downloads-gtk/src/task_row.rs:113
 msgid "More actions"
-msgstr ""
+msgstr "Mais ações"
 
 #: crates/lyra-downloads-gtk/src/task_row.rs:188
-#, placeholders mantidos entre chaves
 msgid "{a} of {b}"
-msgstr ""
+msgstr "{a} de {b}"
 
 #: crates/lyra-downloads-gtk/src/task_row.rs:196
-#, placeholders mantidos entre chaves
 msgid "{a} (unknown size)"
-msgstr ""
+msgstr "{a} (tamanho desconhecido)"
 
 #: crates/lyra-downloads-gtk/src/task_row.rs:207
-#, placeholders mantidos entre chaves
 msgid "{n} of {max} connections"
-msgstr ""
+msgstr "{n} de {max} conexões"
 
 #: crates/lyra-downloads-gtk/src/task_row.rs:215
-#, placeholders mantidos entre chaves
 msgid "{t} remaining"
-msgstr ""
+msgstr "faltam {t}"
 
 #: crates/lyra-downloads-gtk/src/task_row.rs:216
 msgid "remaining time unknown"
-msgstr ""
+msgstr "tempo restante desconhecido"
 
 #: crates/lyra-downloads-gtk/src/task_row.rs:234
 msgid "SHA-256 matches the supplied value"
-msgstr ""
+msgstr "SHA-256 confere com o valor informado"
 
 #: crates/lyra-downloads-gtk/src/task_row.rs:236
 msgid "SHA-256 does not match — file kept; verify the source"
-msgstr ""
+msgstr "SHA-256 não confere — arquivo mantido; verifique a origem"
 
 #: crates/lyra-downloads-gtk/src/task_row.rs:239
 msgid "Not verified"
-msgstr ""
+msgstr "Não verificado"
 
 #: crates/lyra-downloads-gtk/src/task_row.rs:44
 msgid "Queued"
-msgstr ""
+msgstr "Aguardando"
 
 #: crates/lyra-downloads-gtk/src/task_row.rs:45
 msgid "Downloading"
-msgstr ""
+msgstr "Baixando"
 
 #: crates/lyra-downloads-gtk/src/task_row.rs:46
 msgid "Paused"
-msgstr ""
+msgstr "Pausado"
 
 #: crates/lyra-downloads-gtk/src/task_row.rs:47
 msgid "Verifying SHA-256"
-msgstr ""
+msgstr "Verificando SHA-256"
 
 #: crates/lyra-downloads-gtk/src/task_row.rs:48
 msgid "Finished"
-msgstr ""
+msgstr "Concluído"
 
 #: crates/lyra-downloads-gtk/src/task_row.rs:49
 msgid "Canceled"
-msgstr ""
+msgstr "Cancelado"
 
-#: crates/lyra-downloads-gtk/src/task_row.rs:50 crates/lyra-downloads-gtk/src/window.rs:441
+#: crates/lyra-downloads-gtk/src/task_row.rs:50
+#: crates/lyra-downloads-gtk/src/window.rs:441
 msgid "Error"
-msgstr ""
+msgstr "Erro"
 
 #: crates/lyra-downloads-gtk/src/window.rs:137
-#, placeholders mantidos entre chaves
 msgid "Download service unavailable: {e}"
-msgstr ""
+msgstr "Serviço de downloads indisponível: {e}"
 
 #: crates/lyra-downloads-gtk/src/window.rs:151
 msgid "Try starting the engine"
-msgstr ""
+msgstr "Tentar iniciar o motor"
 
 #: crates/lyra-downloads-gtk/src/window.rs:171
-#, placeholders mantidos entre chaves
 msgid "Total speed: {v}"
-msgstr ""
+msgstr "Velocidade total: {v}"
 
 #: crates/lyra-downloads-gtk/src/window.rs:175
-#, placeholders mantidos entre chaves
 msgid "{n} downloading"
-msgstr ""
+msgstr "{n} baixando"
 
 #: crates/lyra-downloads-gtk/src/window.rs:177
-#, placeholders mantidos entre chaves
 msgid "{n} queued"
-msgstr ""
+msgstr "{n} aguardando"
 
 #: crates/lyra-downloads-gtk/src/window.rs:180
-#, placeholders mantidos entre chaves
 msgid "{n} paused"
-msgstr ""
+msgstr "{n} pausados"
 
 #: crates/lyra-downloads-gtk/src/window.rs:268
 msgid "Details"
-msgstr ""
+msgstr "Detalhes"
 
 #: crates/lyra-downloads-gtk/src/window.rs:269
 msgid "Try with a new link…"
-msgstr ""
+msgstr "Tentar com um novo link…"
 
 #: crates/lyra-downloads-gtk/src/window.rs:273
 msgid "Move to the front of the queue"
-msgstr ""
+msgstr "Mover para o início da fila"
 
 #: crates/lyra-downloads-gtk/src/window.rs:276
 msgid "Move up in queue"
-msgstr ""
+msgstr "Subir na fila"
 
 #: crates/lyra-downloads-gtk/src/window.rs:277
 msgid "Move down in queue"
-msgstr ""
+msgstr "Descer na fila"
 
 #: crates/lyra-downloads-gtk/src/window.rs:282
-#, placeholders mantidos entre chaves
 msgid "{n} connections"
-msgstr ""
+msgstr "{n} conexões"
 
 #: crates/lyra-downloads-gtk/src/window.rs:288
 msgid "Remove from history"
-msgstr ""
+msgstr "Remover do histórico"
 
 #: crates/lyra-downloads-gtk/src/window.rs:289
 msgid "Delete file from disk…"
-msgstr ""
+msgstr "Excluir arquivo do disco…"
 
 #: crates/lyra-downloads-gtk/src/window.rs:322
 msgid "Removed from history. The file was kept on disk."
-msgstr ""
+msgstr "Removido do histórico. O arquivo foi mantido no disco."
 
 #: crates/lyra-downloads-gtk/src/window.rs:351
 msgid "Connections changed. The transfer resumed from its previous position."
 msgstr ""
+"Conexões alteradas. A transferência foi reiniciada a partir do ponto em que "
+"estava."
 
 #: crates/lyra-downloads-gtk/src/window.rs:354
 msgid "Connections changed."
-msgstr ""
+msgstr "Conexões alteradas."
 
 #: crates/lyra-downloads-gtk/src/window.rs:393
 msgid "Download details"
-msgstr ""
+msgstr "Detalhes do download"
 
 #: crates/lyra-downloads-gtk/src/window.rs:411
 msgid "File"
-msgstr ""
+msgstr "Arquivo"
 
 #: crates/lyra-downloads-gtk/src/window.rs:416
 msgid "Address"
-msgstr ""
+msgstr "Endereço"
 
 #: crates/lyra-downloads-gtk/src/window.rs:417
 msgid "Status"
-msgstr ""
+msgstr "Estado"
 
 #: crates/lyra-downloads-gtk/src/window.rs:419
 msgid "Size"
-msgstr ""
+msgstr "Tamanho"
 
 #: crates/lyra-downloads-gtk/src/window.rs:422
 msgid "Unknown"
-msgstr ""
+msgstr "Desconhecido"
 
 #: crates/lyra-downloads-gtk/src/window.rs:424
 msgid "Received"
-msgstr ""
+msgstr "Recebido"
 
 #: crates/lyra-downloads-gtk/src/window.rs:426
 msgid "Requested connections (maximum)"
-msgstr ""
+msgstr "Conexões solicitadas (máximo)"
 
 #: crates/lyra-downloads-gtk/src/window.rs:431
 msgid "Currently active connections"
-msgstr ""
+msgstr "Conexões ativas agora"
 
 #: crates/lyra-downloads-gtk/src/window.rs:434
 msgid "Speed"
-msgstr ""
+msgstr "Velocidade"
 
 #: crates/lyra-downloads-gtk/src/window.rs:437
 msgid "Expected SHA-256"
-msgstr ""
+msgstr "SHA-256 esperado"
 
 #: crates/lyra-downloads-gtk/src/window.rs:443
 msgid "Task identifier"
-msgstr ""
+msgstr "Identificador da tarefa"
 
 #: crates/lyra-downloads-gtk/src/window.rs:444
 msgid "aria2 GID"
-msgstr ""
+msgstr "GID no aria2"
 
 #: crates/lyra-downloads-gtk/src/window.rs:45
 msgid "All"
-msgstr ""
+msgstr "Todos"
 
 #: crates/lyra-downloads-gtk/src/window.rs:455
 msgid "Try with a new link"
-msgstr ""
+msgstr "Tentar com um novo link"
 
 #: crates/lyra-downloads-gtk/src/window.rs:456
-msgid "A new task will be created. The previous link's partial file will not be reused because its content cannot be confirmed to be the same."
+msgid ""
+"A new task will be created. The previous link's partial file will not be "
+"reused because its content cannot be confirmed to be the same."
 msgstr ""
+"Será criada uma nova tarefa. O arquivo parcial do link anterior não é "
+"reaproveitado, porque não há como confirmar que é o mesmo conteúdo."
 
 #: crates/lyra-downloads-gtk/src/window.rs:46
 msgid "In progress"
-msgstr ""
+msgstr "Em andamento"
 
 #: crates/lyra-downloads-gtk/src/window.rs:463
 msgid "Create task"
-msgstr ""
+msgstr "Criar tarefa"
 
 #: crates/lyra-downloads-gtk/src/window.rs:47
 msgid "Completed"
-msgstr ""
+msgstr "Concluídos"
 
 #: crates/lyra-downloads-gtk/src/window.rs:476
 msgid "New task created."
-msgstr ""
+msgstr "Nova tarefa criada."
 
 #: crates/lyra-downloads-gtk/src/window.rs:48
 msgid "Failed"
-msgstr ""
+msgstr "Com erro"
 
 #: crates/lyra-downloads-gtk/src/window.rs:487
 msgid "Delete file from disk?"
-msgstr ""
+msgstr "Excluir arquivo do disco?"
 
 #: crates/lyra-downloads-gtk/src/window.rs:488
-#, placeholders mantidos entre chaves
-msgid "“{name}” and its partial data will be deleted from {dir}, and the item will be removed from the list. This cannot be undone."
+msgid ""
+"“{name}” and its partial data will be deleted from {dir}, and the item will "
+"be removed from the list. This cannot be undone."
 msgstr ""
+"“{name}” e seus dados parciais serão apagados de {dir} e o item sairá da "
+"lista. Isso não pode ser desfeito."
 
 #: crates/lyra-downloads-gtk/src/window.rs:493
 msgid "Delete file"
-msgstr ""
+msgstr "Excluir arquivo"
 
 #: crates/lyra-downloads-gtk/src/window.rs:505
 msgid "File deleted."
-msgstr ""
+msgstr "Arquivo excluído."
 
 #: crates/lyra-downloads-gtk/src/window.rs:515
 msgid "Pause all and quit?"
-msgstr ""
+msgstr "Pausar tudo e encerrar?"
 
 #: crates/lyra-downloads-gtk/src/window.rs:516
-msgid "All downloads will be paused and the background service will stop. You can resume them the next time you open Lyra Downloads."
+msgid ""
+"All downloads will be paused and the background service will stop. You can "
+"resume them the next time you open Lyra Downloads."
 msgstr ""
+"Todos os downloads serão pausados e o serviço em segundo plano será "
+"encerrado. Eles poderão ser retomados na próxima vez que você abrir o Lyra "
+"Downloads."
 
 #: crates/lyra-downloads-gtk/src/window.rs:518
 msgid "Pause and quit"
-msgstr ""
+msgstr "Pausar e encerrar"
 
 #: crates/lyra-downloads-gtk/src/window.rs:573
 msgid "New download (Ctrl+N)"
-msgstr ""
+msgstr "Novo download (Ctrl+N)"
 
 #: crates/lyra-downloads-gtk/src/window.rs:578
 msgid "Pause all"
-msgstr ""
+msgstr "Pausar tudo"
 
 #: crates/lyra-downloads-gtk/src/window.rs:579
 msgid "Resume all"
-msgstr ""
+msgstr "Retomar tudo"
 
 #: crates/lyra-downloads-gtk/src/window.rs:583
 msgid "About Lyra Downloads"
-msgstr ""
+msgstr "Sobre o Lyra Downloads"
 
 #: crates/lyra-downloads-gtk/src/window.rs:587
 msgid "Pause all and stop the service…"
-msgstr ""
+msgstr "Pausar tudo e encerrar o serviço…"
 
 #: crates/lyra-downloads-gtk/src/window.rs:595
 msgid "Main menu"
-msgstr ""
+msgstr "Menu principal"
 
 #: crates/lyra-downloads-gtk/src/window.rs:600
 msgid "Search (Ctrl+F)"
-msgstr ""
+msgstr "Buscar (Ctrl+F)"
 
 #: crates/lyra-downloads-gtk/src/window.rs:605
 msgid "Search by name or address"
-msgstr ""
+msgstr "Buscar por nome ou endereço"
 
 #: crates/lyra-downloads-gtk/src/window.rs:76
 msgid "No downloads"
-msgstr ""
+msgstr "Nenhum download"
 
 #: crates/lyra-downloads-gtk/src/window.rs:77
-msgid "Use “New download” or, in Firefox, “Download with Lyra Downloads” in a link's menu. Closing the window does not stop downloads."
+msgid ""
+"Use “New download” or, in Firefox, “Download with Lyra Downloads” in a "
+"link's menu. Closing the window does not stop downloads."
 msgstr ""
+"Use “Novo download” ou, no Firefox, “Baixar com Lyra Downloads” no menu de "
+"um link. Fechar a janela não interrompe os downloads."
 
 #: crates/lyra-downloads-gtk/src/window.rs:79
 msgid "Nothing in progress"
-msgstr ""
+msgstr "Nada em andamento"
 
 #: crates/lyra-downloads-gtk/src/window.rs:79
 msgid "Queued, downloading or paused downloads appear here."
-msgstr ""
+msgstr "Downloads aguardando, baixando ou pausados aparecem aqui."
 
 #: crates/lyra-downloads-gtk/src/window.rs:797
 msgid "Lyra OS Project"
-msgstr ""
+msgstr "Projeto Lyra OS"
 
 #: crates/lyra-downloads-gtk/src/window.rs:80
 msgid "No completed downloads"
-msgstr ""
+msgstr "Nenhum download concluído"
 
 #: crates/lyra-downloads-gtk/src/window.rs:800
 msgid "Download manager with parallel connections, powered by aria2."
-msgstr ""
+msgstr "Gerenciador de downloads com conexões paralelas, usando o motor aria2."
 
 #: crates/lyra-downloads-gtk/src/window.rs:81
 msgid "No errors"
-msgstr ""
+msgstr "Nenhum erro"
 
 #: crates/lyra-downloads-gtk/src/window.rs:81
 msgid "Failed downloads appear here, with an option to try again."
-msgstr ""
+msgstr "Downloads que falharem aparecem aqui, com a opção de tentar novamente."

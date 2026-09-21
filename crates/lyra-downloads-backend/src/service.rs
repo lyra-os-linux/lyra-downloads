@@ -10,6 +10,7 @@
 //! Uma tarefa nunca é inserida duas vezes: o motor só recebe tarefas que já
 //! existem no banco, com GID determinístico derivado do `Task::id`.
 
+use lyra_downloads_core::i18n::{tr, trf};
 use std::collections::{HashMap, HashSet, VecDeque};
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
@@ -69,7 +70,13 @@ fn err<T>(code: ErrorCode, msg: impl Into<String>) -> Result<T, (ErrorCode, Stri
 }
 
 fn internal(e: impl std::fmt::Display) -> (ErrorCode, String) {
-    (ErrorCode::Internal, e.to_string())
+    (
+        ErrorCode::Internal,
+        trf(
+            "Download service error: {detail}",
+            &[("detail", &e.to_string())],
+        ),
+    )
 }
 
 impl Service {
@@ -124,9 +131,7 @@ impl Service {
         if self.restarts.len() >= MAX_ENGINE_RESTARTS {
             if self.engine_problem.is_none() {
                 self.engine_problem = Some(
-                    "O motor aria2 falhou várias vezes seguidas. Os downloads estão parados; \
-                     use \"Tentar novamente\" ou reinicie o Lyra Downloads."
-                        .into(),
+                    tr("The aria2 engine failed repeatedly. Downloads are stopped; use \"Retry\" or restart Lyra Downloads."),
                 );
             }
             return;
@@ -148,7 +153,18 @@ impl Service {
             }
             Err(e) => {
                 tracing::error!("não foi possível iniciar o aria2c: {e}");
-                self.engine_problem = Some(e.to_string());
+                self.engine_problem = Some(match e {
+                    aria2::SpawnError::NotFound => tr(
+                        "The aria2 download engine is not installed. Install the aria2 package.",
+                    ),
+                    aria2::SpawnError::NotReady => {
+                        tr("The aria2 download engine did not respond in time.")
+                    }
+                    aria2::SpawnError::Io(detail) => trf(
+                        "Could not start the aria2 download engine: {detail}",
+                        &[("detail", &detail.to_string())],
+                    ),
+                });
             }
         }
     }
@@ -179,7 +195,7 @@ impl Service {
     fn get(&self, id: Uuid) -> Result<Task, (ErrorCode, String)> {
         match self.repo.get_task(id).map_err(internal)? {
             Some(t) => Ok(t),
-            None => err(ErrorCode::NotFound, "Tarefa não encontrada."),
+            None => err(ErrorCode::NotFound, tr("Task not found.")),
         }
     }
 
@@ -215,14 +231,17 @@ impl Service {
                 client.add_uri(&task.url, &opts).await.map_err(|e| {
                     (
                         ErrorCode::EngineUnavailable,
-                        format!("O motor recusou o download: {e}"),
+                        trf(
+                            "The engine rejected the download: {e}",
+                            &[("e", &e.to_string())],
+                        ),
                     )
                 })?
             }
             Err(e) => {
                 return err(
                     ErrorCode::EngineUnavailable,
-                    format!("Motor indisponível: {e}"),
+                    trf("Engine unavailable: {e}", &[("e", &e.to_string())]),
                 );
             }
         };
@@ -239,7 +258,7 @@ impl Service {
             if self.repo.request_key_revoked(key).map_err(internal)? {
                 return err(
                     ErrorCode::InvalidState,
-                    "Este repasse foi cancelado pelo navegador.",
+                    tr("This handoff was cancelled by the browser."),
                 );
             }
             if let Some(existing) = self.repo.task_for_request_key(key).map_err(internal)? {
@@ -257,14 +276,14 @@ impl Service {
             Err(_) => {
                 return err(
                     ErrorCode::InvalidUrl,
-                    "Informe um endereço http:// ou https:// válido.",
+                    tr("Enter a valid http:// or https:// address."),
                 )
             }
         };
         if url.host_str().is_none() {
             return err(
                 ErrorCode::InvalidUrl,
-                "O endereço não tem um servidor válido.",
+                tr("The address has no valid server."),
             );
         }
 
@@ -281,7 +300,7 @@ impl Service {
                 None => {
                     return err(
                         ErrorCode::InvalidRequest,
-                        "Número de conexões inválido (use 1, 4, 8 ou 16).",
+                        tr("Invalid connection count (use 1, 4, 8 or 16)."),
                     )
                 }
             },
@@ -294,7 +313,7 @@ impl Service {
                 None => {
                     return err(
                         ErrorCode::InvalidRequest,
-                        "O SHA-256 esperado deve ter 64 dígitos hexadecimais.",
+                        tr("The expected SHA-256 must have 64 hexadecimal digits."),
                     )
                 }
             },
@@ -331,7 +350,7 @@ impl Service {
         let mut task = core::build_task(new, &reserved).map_err(|e| match e {
             core::CoreError::InvalidDestination(_) => (
                 ErrorCode::InvalidDestination,
-                "Pasta de destino inválida.".to_string(),
+                tr("Invalid destination folder."),
             ),
             other => internal(other),
         })?;
@@ -367,7 +386,7 @@ impl Service {
             _ => {
                 return err(
                     ErrorCode::InvalidState,
-                    "Esta tarefa não pode ser pausada agora.",
+                    tr("This task cannot be paused now."),
                 )
             }
         }
@@ -388,7 +407,7 @@ impl Service {
         if t.state != TaskState::Pausado {
             return err(
                 ErrorCode::InvalidState,
-                "Apenas downloads pausados podem ser retomados.",
+                tr("Only paused downloads can be resumed."),
             );
         }
         self.reset_engine_backoff();
@@ -410,7 +429,7 @@ impl Service {
                     return client.unpause(&gid).await.map_err(|e| {
                         (
                             ErrorCode::EngineUnavailable,
-                            format!("Não foi possível retomar: {e}"),
+                            trf("Could not resume: {e}", &[("e", &e.to_string())]),
                         )
                     });
                 }
@@ -424,7 +443,10 @@ impl Service {
     pub async fn cancel(&mut self, id: Uuid) -> OpResult {
         let mut t = self.get(id)?;
         if t.state.is_terminal() {
-            return err(ErrorCode::InvalidState, "Esta tarefa já terminou.");
+            return err(
+                ErrorCode::InvalidState,
+                tr("This task has already finished."),
+            );
         }
         if let (Some(client), Some(gid)) = (self.engine_client(), t.aria2_gid.clone()) {
             let _ = client.force_remove(&gid).await;
@@ -459,7 +481,7 @@ impl Service {
             let Some(client) = self.engine_client() else {
                 return err(
                     ErrorCode::EngineUnavailable,
-                    "Não foi possível confirmar o cancelamento no motor.",
+                    tr("Could not confirm cancellation with the download engine."),
                 );
             };
             // forceRemove pode falhar se a tarefa já terminou ou desapareceu.
@@ -479,7 +501,7 @@ impl Service {
                 _ => {
                     return err(
                         ErrorCode::EngineUnavailable,
-                        "O motor ainda não confirmou o cancelamento.",
+                        tr("The download engine has not confirmed cancellation yet."),
                     )
                 }
             }
@@ -487,10 +509,9 @@ impl Service {
         t.state = TaskState::Cancelado;
         t.pause_reason = None;
         self.live.remove(&id);
-        t.error_message = Some(
-            "O navegador não recebeu a confirmação a tempo; o download continuou no Firefox."
-                .into(),
-        );
+        t.error_message = Some(tr(
+            "The browser did not receive confirmation in time; the download continued in Firefox.",
+        ));
         self.save(&mut t)?;
         Ok(json!({ "found": true, "cancelled": true, "revoked": true, "completed": false }))
     }
@@ -500,7 +521,7 @@ impl Service {
         if !matches!(t.state, TaskState::Erro | TaskState::Cancelado) {
             return err(
                 ErrorCode::InvalidState,
-                "Só é possível tentar novamente downloads com erro ou cancelados.",
+                tr("Only failed or cancelled downloads can be retried."),
             );
         }
         check_destination(&t.destination_dir)?;
@@ -538,7 +559,7 @@ impl Service {
         if !t.state.is_terminal() {
             return err(
                 ErrorCode::InvalidState,
-                "Cancele o download antes de removê-lo da lista.",
+                tr("Cancel the download before removing it from the list."),
             );
         }
         if let (Some(client), Some(gid)) = (self.engine_client(), t.aria2_gid.clone()) {
@@ -554,14 +575,14 @@ impl Service {
         if !t.state.is_terminal() {
             return err(
                 ErrorCode::InvalidState,
-                "Cancele o download antes de excluir o arquivo.",
+                tr("Cancel the download before deleting the file."),
             );
         }
         let name = sanitize::sanitize_filename(&t.filename);
         if name != t.filename || !sanitize::is_safe_destination_dir(&t.destination_dir) {
             return err(
                 ErrorCode::InvalidState,
-                "Caminho do arquivo inválido; nada foi excluído.",
+                tr("Invalid file path; nothing was deleted."),
             );
         }
         let path = t.destination_dir.join(&name);
@@ -573,14 +594,17 @@ impl Service {
                     std::fs::remove_file(&p).map_err(|e| {
                         (
                             ErrorCode::Internal,
-                            format!("Não foi possível excluir {}: {e}", p.display()),
+                            trf(
+                                "Could not delete {path}: {e}",
+                                &[("path", &p.display().to_string()), ("e", &e.to_string())],
+                            ),
                         )
                     })?;
                 }
                 Ok(_) => {
                     return err(
                         ErrorCode::InvalidState,
-                        "O destino não é um arquivo comum; nada foi excluído.",
+                        tr("The destination is not a regular file; nothing was deleted."),
                     )
                 }
                 Err(_) => {}
@@ -604,7 +628,7 @@ impl Service {
         let Some(idx) = waiting.iter().position(|t| t.id == id) else {
             return err(
                 ErrorCode::InvalidState,
-                "Só é possível reordenar downloads aguardando.",
+                tr("Only queued downloads can be reordered."),
             );
         };
         let item = waiting.remove(idx);
@@ -646,14 +670,14 @@ impl Service {
         let Some(profile) = ConnectionProfile::from_u8(n) else {
             return err(
                 ErrorCode::InvalidRequest,
-                "Número de conexões inválido (use 1, 4, 8 ou 16).",
+                tr("Invalid connection count (use 1, 4, 8 or 16)."),
             );
         };
         let mut t = self.get(id)?;
         if t.state.is_terminal() || t.state == TaskState::Verificando {
             return err(
                 ErrorCode::InvalidState,
-                "Não é possível alterar conexões de uma tarefa encerrada.",
+                tr("Connections cannot be changed for a finished task."),
             );
         }
         t.connections = profile;
@@ -678,7 +702,10 @@ impl Service {
                 client.change_option(&gid, &opts).await.map_err(|e| {
                     (
                         ErrorCode::EngineUnavailable,
-                        format!("O motor não aceitou a alteração: {e}"),
+                        trf(
+                            "The engine rejected the change: {e}",
+                            &[("e", &e.to_string())],
+                        ),
                     )
                 })?;
                 let _ = client.unpause(&gid).await;
@@ -687,7 +714,10 @@ impl Service {
                 client.change_option(&gid, &opts).await.map_err(|e| {
                     (
                         ErrorCode::EngineUnavailable,
-                        format!("O motor não aceitou a alteração: {e}"),
+                        trf(
+                            "The engine rejected the change: {e}",
+                            &[("e", &e.to_string())],
+                        ),
                     )
                 })?;
             }
@@ -732,7 +762,7 @@ impl Service {
         if !(1..=10).contains(&s.max_concurrent_downloads) {
             return err(
                 ErrorCode::InvalidRequest,
-                "Downloads simultâneos deve estar entre 1 e 10.",
+                tr("Simultaneous downloads must be between 1 and 10."),
             );
         }
         check_destination(&s.default_destination_dir)?;
@@ -829,7 +859,7 @@ impl Service {
                         engine.shutdown().await;
                     }
                     self.engine_problem =
-                        Some("O motor aria2 parou de responder; reiniciando.".into());
+                        Some(tr("The aria2 engine stopped responding; restarting."));
                 }
                 None
             }
@@ -841,26 +871,32 @@ fn check_destination(dir: &Path) -> Result<(), (ErrorCode, String)> {
     if !sanitize::is_safe_destination_dir(dir) {
         return err(
             ErrorCode::InvalidDestination,
-            "A pasta de destino precisa ser um caminho absoluto.",
+            tr("The destination folder must be an absolute path."),
         );
     }
     if !dir.is_dir() {
         return err(
             ErrorCode::InvalidDestination,
-            format!("A pasta de destino não existe: {}", dir.display()),
+            trf(
+                "The destination folder does not exist: {path}",
+                &[("path", &dir.display().to_string())],
+            ),
         );
     }
     use std::os::unix::ffi::OsStrExt;
     let c = std::ffi::CString::new(dir.as_os_str().as_bytes()).map_err(|_| {
         (
             ErrorCode::InvalidDestination,
-            "Caminho de destino inválido.".to_string(),
+            tr("Invalid destination path."),
         )
     })?;
     if unsafe { libc::access(c.as_ptr(), libc::W_OK | libc::X_OK) } != 0 {
         return err(
             ErrorCode::InvalidDestination,
-            format!("Sem permissão de escrita em {}", dir.display()),
+            trf(
+                "No write permission for {path}",
+                &[("path", &dir.display().to_string())],
+            ),
         );
     }
     Ok(())
@@ -876,11 +912,11 @@ fn http_status_hint(msg: &str) -> Option<String> {
         .collect();
     let extra = match code.as_str() {
         "" => return None,
-        "401" | "403" => " Pode ser um link expirado, um recurso que exige login ou um bloqueio para este acesso.",
-        "404" | "410" => " O arquivo pode ter sido removido ou o link estar incorreto.",
-        "429" => " O servidor pediu para diminuir o ritmo de requisições; tente mais tarde ou com menos conexões.",
-        c if c.starts_with('5') => " Erro no servidor; costuma ser temporário.",
-        _ => "",
+        "401" | "403" => tr(" The link may have expired, the resource may require a login, or access may be blocked."),
+        "404" | "410" => tr(" The file may have been removed or the link may be incorrect."),
+        "429" => tr(" The server requested fewer requests; try later or use fewer connections."),
+        c if c.starts_with('5') => tr(" Server error; this is usually temporary."),
+        _ => String::new(),
     };
     Some(format!(" (HTTP {code}).{extra}"))
 }
@@ -1074,7 +1110,7 @@ pub async fn tick(shared: &Shared) {
     for t in finished {
         if notify {
             notifier
-                .download_finished("Download concluído", &t.filename, &t.final_path())
+                .download_finished(&tr("Download finished"), &t.filename, &t.final_path())
                 .await;
         }
     }
@@ -1101,27 +1137,31 @@ fn spawn_verification(shared: Shared, task: Task) {
             Ok(Ok(actual)) if actual == expected => {
                 t.hash_verification = HashVerification::Confere;
                 t.state = TaskState::Concluido;
-                body = format!("{} — SHA-256 confere com o valor informado", t.filename);
+                body = trf(
+                    "{name} — SHA-256 matches the supplied value",
+                    &[("name", &t.filename)],
+                );
             }
             Ok(Ok(_)) => {
                 t.hash_verification = HashVerification::NaoConfere;
                 t.state = TaskState::Concluido;
-                body = format!(
-                    "{} — SHA-256 NÃO confere. O arquivo foi mantido; confira a origem do hash e do arquivo.",
-                    t.filename
-                );
+                body = trf("{name} — SHA-256 does not match. The file was kept; verify the source of the hash and file.", &[("name", &t.filename)]);
             }
             Ok(Err(e)) => {
                 t.hash_verification = HashVerification::NaoVerificado;
                 t.state = TaskState::Erro;
-                t.error_message = Some(format!(
-                    "Não foi possível ler o arquivo para verificar o SHA-256: {e}"
+                t.error_message = Some(trf(
+                    "Could not read the file to verify SHA-256: {e}",
+                    &[("e", &e.to_string())],
                 ));
                 body = String::new();
             }
             Err(e) => {
                 t.state = TaskState::Erro;
-                t.error_message = Some(format!("Falha interna na verificação: {e}"));
+                t.error_message = Some(trf(
+                    "Internal verification error: {e}",
+                    &[("e", &e.to_string())],
+                ));
                 body = String::new();
             }
         }
@@ -1131,7 +1171,7 @@ fn spawn_verification(shared: Shared, task: Task) {
         drop(svc);
         if notify {
             notifier
-                .download_finished("Download concluído", &body, &t.final_path())
+                .download_finished(&tr("Download finished"), &body, &t.final_path())
                 .await;
         }
     });
@@ -1148,7 +1188,7 @@ pub async fn handle(shared: &Shared, op: Op) -> OpResult {
                 Err(_) => {
                     return err(
                         ErrorCode::InvalidUrl,
-                        "Informe um endereço http:// ou https:// válido.",
+                        tr("Enter a valid http:// or https:// address."),
                     )
                 }
             };

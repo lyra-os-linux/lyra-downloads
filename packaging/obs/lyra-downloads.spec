@@ -10,7 +10,7 @@
 #
 
 Name:           lyra-downloads
-Version:        0.1.2
+Version:        0.1.3
 Release:        0
 Summary:        Download manager with parallel connections for the Lyra OS ecosystem
 # Código do projeto: GPL-3.0-or-later. Crates vendorizadas (ligadas
@@ -33,6 +33,8 @@ BuildRequires:  pkgconfig(sqlite3)
 BuildRequires:  desktop-file-utils
 BuildRequires:  appstream-glib
 BuildRequires:  gettext-tools
+# Real gettext locale tests (LANGUAGE is intentionally ignored in the C locale).
+BuildRequires:  glibc-locale
 BuildRequires:  python3
 BuildRequires:  zstd
 # Os testes de integração em %%check usam o aria2c real em loopback.

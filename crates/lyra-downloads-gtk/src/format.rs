@@ -1,5 +1,6 @@
 //! Formatação de unidades (binárias, explícitas: KiB, MiB, GiB) e tempo,
-//! com vírgula decimal (pt-BR).
+//! with a translated decimal separator.
+use crate::i18n::tr;
 
 pub fn bytes(n: u64) -> String {
     const UNITS: [&str; 5] = ["B", "KiB", "MiB", "GiB", "TiB"];
@@ -17,7 +18,7 @@ pub fn bytes(n: u64) -> String {
     } else {
         format!("{v:.1}")
     };
-    format!("{} {}", s.replace('.', ","), UNITS[unit])
+    format!("{} {}", s.replace('.', &tr(".")), UNITS[unit])
 }
 
 pub fn speed(bytes_per_sec: u64) -> String {
@@ -50,13 +51,13 @@ mod tests {
     use super::*;
 
     #[test]
-    fn binary_units_with_comma() {
+    fn binary_units_with_english_fallback() {
         assert_eq!(bytes(512), "512 B");
-        assert_eq!(bytes(1536), "1,5 KiB");
-        assert_eq!(bytes(5 * 1024 * 1024), "5,0 MiB");
-        assert_eq!(bytes(3 * 1024 * 1024 * 1024 + 512 * 1024 * 1024), "3,5 GiB");
+        assert_eq!(bytes(1536), "1.5 KiB");
+        assert_eq!(bytes(5 * 1024 * 1024), "5.0 MiB");
+        assert_eq!(bytes(3 * 1024 * 1024 * 1024 + 512 * 1024 * 1024), "3.5 GiB");
         assert_eq!(bytes(200 * 1024 * 1024), "200 MiB");
-        assert_eq!(speed(2 * 1024 * 1024), "2,0 MiB/s");
+        assert_eq!(speed(2 * 1024 * 1024), "2.0 MiB/s");
     }
 
     #[test]

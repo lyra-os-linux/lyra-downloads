@@ -137,3 +137,5 @@ mod tests {
         assert!(gid1.chars().all(|c| c.is_ascii_hexdigit()));
     }
 }
+
+pub mod i18n;
