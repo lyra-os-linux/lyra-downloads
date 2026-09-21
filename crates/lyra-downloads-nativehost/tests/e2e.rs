@@ -271,7 +271,8 @@ fn crash_recovery_reaps_orphan_engine_and_finishes_without_duplicates() {
     let iso = Iso::new();
     let size: u64 = 16 * 1024 * 1024;
 
-    assert_eq!(host_health(&iso)["ok"], true);
+    let health = host_health(&iso);
+    assert_eq!(health["ok"], true, "{health}");
     let _ = backend_call(
         &iso,
         json!({"op":"add_download","url":srv.url(&format!("/slow/{size}/crash.bin")),"connections":4,"source":"interface"}),
@@ -293,7 +294,8 @@ fn crash_recovery_reaps_orphan_engine_and_finishes_without_duplicates() {
     );
 
     // Novo backend (iniciado sob demanda) encerra o órfão verificado e segue.
-    assert_eq!(host_health(&iso)["ok"], true);
+    let health = host_health(&iso);
+    assert_eq!(health["ok"], true, "{health}");
     assert!(
         wait_until(10, || !pids_of(&iso, "aria2c").contains(&engine[0])),
         "órfão não foi encerrado"
@@ -315,7 +317,8 @@ fn crash_recovery_reaps_orphan_engine_and_finishes_without_duplicates() {
     assert!(wait_until(10, || pids_of(&iso, "lyra-downloads-backend")
         .is_empty()
         && pids_of(&iso, "aria2c").is_empty()));
-    assert_eq!(host_health(&iso)["ok"], true);
+    let health = host_health(&iso);
+    assert_eq!(health["ok"], true, "{health}");
 
     assert!(
         wait_until(120, || task_state(&iso).1 == "concluido"),

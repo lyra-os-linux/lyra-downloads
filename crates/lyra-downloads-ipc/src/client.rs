@@ -45,17 +45,25 @@ impl BackendClient {
         })
     }
 
-    /// Conecta ao backend; se não estiver rodando, inicia-o desanexado
-    /// (nova sessão via `setsid`) e aguarda o socket ficar disponível.
+    fn connect_ready(socket: &Path) -> Result<Self, ClientError> {
+        let mut client = Self::connect(socket)?;
+        // A dying process can still accept a connection. Only a read-only
+        // reply confirms readiness; never retry the caller's mutating request.
+        client.call::<serde_json::Value>(Op::Health)?;
+        Ok(client)
+    }
+
+    /// Conecta ao backend; se não responder, inicia-o desanexado
+    /// (nova sessão via `setsid`) e aguarda uma resposta de saúde.
     pub fn connect_or_spawn() -> Result<Self, ClientError> {
         let socket = lyra_downloads_core::paths::backend_socket_path()?;
-        if let Ok(c) = Self::connect(&socket) {
+        if let Ok(c) = Self::connect_ready(&socket) {
             return Ok(c);
         }
         spawn_backend_detached()?;
         let deadline = Instant::now() + Duration::from_secs(10);
         loop {
-            match Self::connect(&socket) {
+            match Self::connect_ready(&socket) {
                 Ok(c) => return Ok(c),
                 Err(e) if Instant::now() > deadline => {
                     return Err(ClientError::Unavailable(format!(
@@ -165,4 +173,52 @@ pub fn spawn_backend_detached() -> Result<(), ClientError> {
     })?;
     spawn_detached(&exe, &[])?;
     Ok(())
+}
+
+#[cfg(test)]
+mod readiness_tests {
+    use super::*;
+    use std::os::unix::net::UnixListener;
+
+    #[test]
+    fn accepted_connection_without_a_reply_is_not_ready() {
+        let root = tempfile::tempdir().unwrap();
+        let path = root.path().join("backend.sock");
+        let listener = UnixListener::bind(&path).unwrap();
+        let server = std::thread::spawn(move || {
+            let (stream, _) = listener.accept().unwrap();
+            let mut line = String::new();
+            BufReader::new(stream).read_line(&mut line).unwrap();
+            let request: Request = serde_json::from_str(&line).unwrap();
+            assert!(matches!(request.op, Op::Health));
+            // Emulate a process exiting after accept, before responding.
+        });
+        assert!(BackendClient::connect_ready(&path).is_err());
+        server.join().unwrap();
+    }
+
+    #[test]
+    fn readiness_does_not_send_or_replay_the_callers_operation() {
+        let root = tempfile::tempdir().unwrap();
+        let path = root.path().join("backend.sock");
+        let listener = UnixListener::bind(&path).unwrap();
+        let server = std::thread::spawn(move || {
+            let (mut stream, _) = listener.accept().unwrap();
+            let mut reader = BufReader::new(stream.try_clone().unwrap());
+            let mut line = String::new();
+            reader.read_line(&mut line).unwrap();
+            let request: Request = serde_json::from_str(&line).unwrap();
+            assert!(matches!(request.op, Op::Health));
+            let reply = Response::ok(&request.request_id, serde_json::Value::Null);
+            writeln!(stream, "{}", serde_json::to_string(&reply).unwrap()).unwrap();
+            line.clear();
+            reader.read_line(&mut line).unwrap();
+            let request: Request = serde_json::from_str(&line).unwrap();
+            assert!(matches!(request.op, Op::Shutdown));
+            // Lost response: the operation must not be resent.
+        });
+        let mut client = BackendClient::connect_ready(&path).unwrap();
+        assert!(client.call::<serde_json::Value>(Op::Shutdown).is_err());
+        server.join().unwrap();
+    }
 }

@@ -1239,6 +1239,7 @@ dependencies = [
  "lyra-downloads-core",
  "serde",
  "serde_json",
+ "tempfile",
  "thiserror",
  "uuid",
 ]
