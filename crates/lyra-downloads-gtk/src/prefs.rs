@@ -22,7 +22,7 @@ pub fn present(
 ) {
     let s = Rc::new(RefCell::new(current));
     let dialog = adw::PreferencesDialog::builder()
-        .title(tr("Preferências"))
+        .title(tr("Preferences"))
         .build();
     let page = adw::PreferencesPage::new();
 
@@ -30,7 +30,7 @@ pub fn present(
         .title(tr("Downloads"))
         .build();
     let folder_row = adw::ActionRow::builder()
-        .title(tr("Pasta padrão"))
+        .title(tr("Default folder"))
         .subtitle(
             s.borrow()
                 .default_destination_dir
@@ -39,15 +39,13 @@ pub fn present(
         )
         .build();
     let folder_btn = gtk::Button::builder()
-        .label(tr("Escolher…"))
+        .label(tr("Choose…"))
         .valign(gtk::Align::Center)
         .build();
     folder_row.add_suffix(&folder_btn);
     let conn_row = adw::ComboRow::builder()
-        .title(tr("Conexões por download"))
-        .subtitle(tr(
-            "Padrão para novos downloads; é um máximo, não uma garantia",
-        ))
+        .title(tr("Connections per download"))
+        .subtitle(tr("Default for new downloads; a maximum, not a guarantee"))
         .model(&gtk::StringList::new(&["1", "4", "8", "16"]))
         .build();
     conn_row.set_selected(
@@ -57,8 +55,10 @@ pub fn present(
             .unwrap_or(1) as u32,
     );
     let conc_row = adw::SpinRow::builder()
-        .title(tr("Downloads simultâneos"))
-        .subtitle(tr("Independente do número de conexões de cada download"))
+        .title(tr("Simultaneous downloads"))
+        .subtitle(tr(
+            "Independent of the number of connections for each download",
+        ))
         .adjustment(&gtk::Adjustment::new(
             s.borrow().max_concurrent_downloads as f64,
             1.0,
@@ -69,8 +69,8 @@ pub fn present(
         ))
         .build();
     let limit_row = adw::SpinRow::builder()
-        .title(tr("Limite de velocidade total (KiB/s)"))
-        .subtitle(tr("0 = sem limite"))
+        .title(tr("Total speed limit (KiB/s)"))
+        .subtitle(tr("0 = unlimited"))
         .adjustment(&gtk::Adjustment::new(
             (s.borrow().global_speed_limit_bytes / 1024) as f64,
             0.0,
@@ -86,15 +86,17 @@ pub fn present(
     g.add(&limit_row);
 
     let g2 = adw::PreferencesGroup::builder()
-        .title(tr("Comportamento"))
+        .title(tr("Behavior"))
         .build();
     let resume_row = adw::SwitchRow::builder()
-        .title(tr("Retomar downloads automaticamente"))
-        .subtitle(tr("Ao reabrir após reiniciar o computador. Downloads pausados por você continuam pausados."))
+        .title(tr("Resume downloads automatically"))
+        .subtitle(tr(
+            "When reopening after restarting the computer. Downloads you paused stay paused.",
+        ))
         .active(s.borrow().auto_resume_on_start)
         .build();
     let notify_row = adw::SwitchRow::builder()
-        .title(tr("Notificar ao concluir"))
+        .title(tr("Notify when finished"))
         .active(s.borrow().notifications_enabled)
         .build();
     g2.add(&resume_row);
@@ -108,7 +110,7 @@ pub fn present(
         let (s, folder_row, dialog) = (s.clone(), folder_row.clone(), dialog.clone());
         move |_| {
             let fd = gtk::FileDialog::builder()
-                .title(tr("Escolher pasta padrão"))
+                .title(tr("Choose default folder"))
                 .modal(true)
                 .build();
             fd.set_initial_folder(Some(&gio::File::for_path(

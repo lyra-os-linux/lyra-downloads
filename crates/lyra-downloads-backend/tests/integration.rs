@@ -310,14 +310,14 @@ fn http_errors_are_recoverable_and_described() {
     let t = wait_for(&mut c, r404.task_id, 60, |t| {
         t.task.state == TaskState::Erro
     });
-    assert!(t.task.error_message.unwrap().contains("não encontrado"));
+    assert!(t.task.error_message.unwrap().contains("not found"));
     let t = wait_for(&mut c, r403.task_id, 60, |t| {
         t.task.state == TaskState::Erro
     });
     let msg = t.task.error_message.unwrap();
     assert!(msg.contains("403"), "{msg}");
     assert!(
-        msg.contains("Pode ser"),
+        msg.contains("may have expired"),
         "403 não deve ter diagnóstico definitivo: {msg}"
     );
     wait_for(&mut c, refused.task_id, 90, |t| {

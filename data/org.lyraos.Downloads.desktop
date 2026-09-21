@@ -1,13 +1,19 @@
 [Desktop Entry]
 Type=Application
 Name=Lyra Downloads
-GenericName=Gerenciador de downloads
-Comment=Baixe arquivos grandes com conexões paralelas usando o aria2
+GenericName=Download manager
+GenericName[pt_BR]=Gerenciador de downloads
+GenericName[es_ES]=Gestor de descargas
+Comment=Download large files with parallel connections using aria2
+Comment[pt_BR]=Baixe arquivos grandes com conexões paralelas usando o aria2
+Comment[es_ES]=Descarga archivos grandes con conexiones paralelas usando aria2
 Exec=lyra-downloads
 Icon=org.lyraos.Downloads
 Terminal=false
 Categories=Network;FileTransfer;GTK;GNOME;
-Keywords=download;baixar;aria2;iso;transferência;
+Keywords=download;aria2;iso;transfer;
+Keywords[pt_BR]=download;baixar;aria2;iso;transferência;
+Keywords[es_ES]=descarga;descargar;aria2;iso;transferencia;
 StartupNotify=true
 DBusActivatable=false
 X-GNOME-UsesNotifications=true

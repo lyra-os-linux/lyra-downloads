@@ -6,3 +6,7 @@ crates/lyra-downloads-gtk/src/main.rs
 crates/lyra-downloads-gtk/src/prefs.rs
 crates/lyra-downloads-gtk/src/task_row.rs
 crates/lyra-downloads-gtk/src/window.rs
+crates/lyra-downloads-core/src/i18n.rs
+crates/lyra-downloads-backend/src/notify.rs
+crates/lyra-downloads-backend/src/service.rs
+crates/lyra-downloads-aria2/src/errors.rs

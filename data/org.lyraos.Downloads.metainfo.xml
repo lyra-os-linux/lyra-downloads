@@ -1,30 +1,39 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <component type="desktop-application">
   <id>org.lyraos.Downloads</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
   <name>Lyra Downloads</name>
-  <summary>Gerenciador de downloads com conexões paralelas</summary>
+  <summary>Download manager with parallel connections</summary>
+  <summary xml:lang="es_ES">Gestor de descargas con conexiones paralelas</summary>
+  <summary xml:lang="pt_BR">Gerenciador de downloads com conexões paralelas</summary>
   <description>
-    <p>
-      O Lyra Downloads baixa arquivos por HTTP e HTTPS usando o motor aria2,
-      com várias conexões por download quando o servidor permite. A janela
-      mostra a velocidade total, as conexões ativas e o progresso real de
-      cada transferência.
-    </p>
+    <p>Lyra Downloads downloads HTTP and HTTPS files using aria2, with multiple connections when the server supports them. The window shows total speed, active connections and transfer progress.</p>
+    <p xml:lang="es_ES">Lyra Downloads descarga archivos HTTP y HTTPS mediante aria2, con varias conexiones cuando el servidor lo permite. La ventana muestra la velocidad total, las conexiones activas y el progreso de cada transferencia.</p>
+    <p xml:lang="pt_BR">O Lyra Downloads baixa arquivos por HTTP e HTTPS usando o motor aria2, com várias conexões por download quando o servidor permite. A janela mostra a velocidade total, as conexões ativas e o progresso real de cada transferência.</p>
     <ul>
-      <li>Perfis de 1, 4, 8 ou 16 conexões por download (um máximo, não uma garantia)</li>
-      <li>Fila com pausa, retomada, cancelamento, nova tentativa e reordenação</li>
-      <li>Retomada após fechar a janela ou reiniciar o computador</li>
-      <li>Conferência opcional de SHA-256 ao concluir</li>
-      <li>Integração opcional com o Firefox</li>
+      <li>Profiles with 1, 4, 8 or 16 connections per download (a maximum, not a guarantee)</li>
+      <li xml:lang="es_ES">Perfiles de 1, 4, 8 o 16 conexiones por descarga (un máximo, no una garantía)</li>
+      <li xml:lang="pt_BR">Perfis de 1, 4, 8 ou 16 conexões por download (um máximo, não uma garantia)</li>
+      <li>Queue with pause, resume, cancel, retry and reordering</li>
+      <li xml:lang="es_ES">Cola con pausa, reanudación, cancelación, reintento y reordenación</li>
+      <li xml:lang="pt_BR">Fila com pausa, retomada, cancelamento, nova tentativa e reordenação</li>
+      <li>Resume after closing the window or restarting the computer</li>
+      <li xml:lang="es_ES">Reanudación tras cerrar la ventana o reiniciar el equipo</li>
+      <li xml:lang="pt_BR">Retomada após fechar a janela ou reiniciar o computador</li>
+      <li>Optional SHA-256 verification when finished</li>
+      <li xml:lang="es_ES">Comprobación opcional de SHA-256 al finalizar</li>
+      <li xml:lang="pt_BR">Conferência opcional de SHA-256 ao concluir</li>
+      <li>Optional Firefox integration</li>
+      <li xml:lang="es_ES">Integración opcional con Firefox</li>
+      <li xml:lang="pt_BR">Integração opcional com o Firefox</li>
     </ul>
   </description>
   <launchable type="desktop-id">org.lyraos.Downloads.desktop</launchable>
   <url type="homepage">https://github.com/lyra-os-linux/lyra-downloads</url>
   <url type="bugtracker">https://github.com/lyra-os-linux/lyra-downloads/issues</url>
   <developer id="org.lyraos">
-    <name>Projeto Lyra OS</name>
+    <name>Lyra OS Project</name>
   </developer>
   <categories>
     <category>Network</category>
@@ -37,9 +46,14 @@
     <control>keyboard</control>
     <control>pointing</control>
   </supports>
-  <content_rating type="oars-1.1"/>
+  <content_rating type="oars-1.1" />
   <translation type="gettext">lyra-downloads</translation>
   <releases>
+    <release version="0.1.3" date="2026-09-21">
+      <description>
+        <p>Add English, Brazilian Portuguese and Spanish translations with English fallback.</p>
+      </description>
+    </release>
     <release version="0.1.2" date="2026-09-19">
       <description>
         <p>Preserva o arquivo recebido do Firefox quando os dois aplicativos usam a mesma pasta de downloads.</p>

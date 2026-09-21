@@ -118,9 +118,17 @@ Servidor de teste manual: `cargo run -p lyra-downloads-testserver -- 127.0.0.1:8
 
 ## Tradução
 
-As mensagens são escritas em português do Brasil. Para outro idioma:
-`scripts/update-pot.py`, copie `po/lyra-downloads.pot` para `po/<idioma>.po`,
-traduza e adicione o idioma a `po/LINGUAS`.
+A interface, as notificações e os erros de download têm catálogos en-US, pt-BR
+e es-ES. O texto-fonte e o fallback são inglês. A seleção segue o gettext
+(`LC_ALL`, `LC_MESSAGES`, `LANG` e `LANGUAGE`); reinicie o aplicativo e o serviço
+após mudar o idioma da sessão. Mensagens já gravadas no histórico preservam
+o idioma em que ocorreram; detalhes técnicos fornecidos pelo sistema/motor
+podem conservar o idioma de origem.
+
+Use `python3 scripts/update-pot.py --check` para conferir cobertura e placeholders.
+`cargo test -p lyra-downloads-core --test i18n` compila os catálogos e testa
+a resolução real, incluindo fallback, em processos isolados. Requer gettext-tools
+e o locale en_US.UTF-8 (glibc-locale no openSUSE).
 
 ## Licença
 

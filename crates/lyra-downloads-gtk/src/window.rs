@@ -42,10 +42,10 @@ impl Page {
     }
     fn title(self) -> String {
         match self {
-            Page::Todos => tr("Todos"),
-            Page::EmAndamento => tr("Em andamento"),
-            Page::Concluidos => tr("Concluídos"),
-            Page::ComErro => tr("Com erro"),
+            Page::Todos => tr("All"),
+            Page::EmAndamento => tr("In progress"),
+            Page::Concluidos => tr("Completed"),
+            Page::ComErro => tr("Failed"),
         }
     }
     fn icon(self) -> &'static str {
@@ -73,12 +73,12 @@ impl Page {
     fn empty(self) -> (String, String) {
         match self {
             Page::Todos => (
-                tr("Nenhum download"),
-                tr("Use “Novo download” ou, no Firefox, “Baixar com Lyra Downloads” no menu de um link. Fechar a janela não interrompe os downloads."),
+                tr("No downloads"),
+                tr("Use “New download” or, in Firefox, “Download with Lyra Downloads” in a link's menu. Closing the window does not stop downloads."),
             ),
-            Page::EmAndamento => (tr("Nada em andamento"), tr("Downloads aguardando, baixando ou pausados aparecem aqui.")),
-            Page::Concluidos => (tr("Nenhum download concluído"), String::new()),
-            Page::ComErro => (tr("Nenhum erro"), tr("Downloads que falharem aparecem aqui, com a opção de tentar novamente.")),
+            Page::EmAndamento => (tr("Nothing in progress"), tr("Queued, downloading or paused downloads appear here.")),
+            Page::Concluidos => (tr("No completed downloads"), String::new()),
+            Page::ComErro => (tr("No errors"), tr("Failed downloads appear here, with an option to try again.")),
         }
     }
 }
@@ -134,7 +134,7 @@ impl Ui {
                 }
                 Err(e) => {
                     ui.banner
-                        .set_title(&trf("Serviço de downloads indisponível: {e}", &[("e", &e)]));
+                        .set_title(&trf("Download service unavailable: {e}", &[("e", &e)]));
                     ui.banner.set_button_label(None);
                     ui.banner.set_revealed(true);
                     *ui.backend_error.borrow_mut() = Some(e);
@@ -148,7 +148,7 @@ impl Ui {
             Some(p) => {
                 self.banner.set_title(p);
                 self.banner
-                    .set_button_label(Some(&tr("Tentar iniciar o motor")));
+                    .set_button_label(Some(&tr("Try starting the engine")));
                 self.banner.set_revealed(true);
             }
             None => self.banner.set_revealed(false),
@@ -169,15 +169,15 @@ impl Ui {
             .filter(|t| t.task.state == TaskState::Pausado)
             .count();
         let mut summary = vec![trf(
-            "Velocidade total: {v}",
+            "Total speed: {v}",
             &[("v", &format::speed(s.total_speed))],
         )];
-        summary.push(trf("{n} baixando", &[("n", &active.to_string())]));
+        summary.push(trf("{n} downloading", &[("n", &active.to_string())]));
         if waiting > 0 {
-            summary.push(trf("{n} aguardando", &[("n", &waiting.to_string())]));
+            summary.push(trf("{n} queued", &[("n", &waiting.to_string())]));
         }
         if paused > 0 {
-            summary.push(trf("{n} pausados", &[("n", &paused.to_string())]));
+            summary.push(trf("{n} paused", &[("n", &paused.to_string())]));
         }
         self.summary.set_label(&summary.join(" · "));
 
@@ -265,31 +265,28 @@ impl Ui {
         let group = gio::SimpleActionGroup::new();
         let menu = gio::Menu::new();
         let main = gio::Menu::new();
-        main.append(Some(&tr("Detalhes")), Some("row.details"));
-        main.append(Some(&tr("Tentar com um novo link…")), Some("row.new-url"));
+        main.append(Some(&tr("Details")), Some("row.details"));
+        main.append(Some(&tr("Try with a new link…")), Some("row.new-url"));
         menu.append_section(None, &main);
         let order = gio::Menu::new();
         order.append(
-            Some(&tr("Mover para o início da fila")),
+            Some(&tr("Move to the front of the queue")),
             Some("row.move-top"),
         );
-        order.append(Some(&tr("Subir na fila")), Some("row.move-up"));
-        order.append(Some(&tr("Descer na fila")), Some("row.move-down"));
+        order.append(Some(&tr("Move up in queue")), Some("row.move-up"));
+        order.append(Some(&tr("Move down in queue")), Some("row.move-down"));
         menu.append_section(None, &order);
         let conns = gio::Menu::new();
         for n in [1u8, 4, 8, 16] {
             conns.append(
-                Some(&trf("{n} conexões", &[("n", &n.to_string())])),
+                Some(&trf("{n} connections", &[("n", &n.to_string())])),
                 Some(&format!("row.connections(byte {n})")),
             );
         }
-        menu.append_submenu(Some(&tr("Conexões")), &conns);
+        menu.append_submenu(Some(&tr("Connections")), &conns);
         let danger = gio::Menu::new();
-        danger.append(Some(&tr("Remover do histórico")), Some("row.remove"));
-        danger.append(
-            Some(&tr("Excluir arquivo do disco…")),
-            Some("row.delete-file"),
-        );
+        danger.append(Some(&tr("Remove from history")), Some("row.remove"));
+        danger.append(Some(&tr("Delete file from disk…")), Some("row.delete-file"));
         menu.append_section(None, &danger);
         b.menu.set_menu_model(Some(&menu));
 
@@ -322,9 +319,7 @@ impl Ui {
                 let ui2 = ui.clone();
                 glib::spawn_future_local(async move {
                     match backend::call::<serde_json::Value>(Op::RemoveFromHistory { id }).await {
-                        Ok(_) => ui2.toast(&tr(
-                            "Removido do histórico. O arquivo foi mantido no disco.",
-                        )),
+                        Ok(_) => ui2.toast(&tr("Removed from history. The file was kept on disk.")),
                         Err(e) => ui2.toast(&e),
                     }
                     ui2.refresh();
@@ -341,14 +336,22 @@ impl Ui {
         let a_conn = gio::SimpleAction::new("connections", Some(glib::VariantTy::BYTE));
         let ui = self.clone();
         a_conn.connect_activate(move |_, v| {
-            let Some(n) = v.and_then(|v| v.get::<u8>()) else { return };
+            let Some(n) = v.and_then(|v| v.get::<u8>()) else {
+                return;
+            };
             let ui2 = ui.clone();
             glib::spawn_future_local(async move {
-                match backend::call::<serde_json::Value>(Op::ChangeConnections { id, connections: n }).await {
-                    Ok(v) if v.get("restarted").and_then(|r| r.as_bool()) == Some(true) => ui2.toast(&tr(
-                        "Conexões alteradas. A transferência foi reiniciada a partir do ponto em que estava.",
-                    )),
-                    Ok(_) => ui2.toast(&tr("Conexões alteradas.")),
+                match backend::call::<serde_json::Value>(Op::ChangeConnections {
+                    id,
+                    connections: n,
+                })
+                .await
+                {
+                    Ok(v) if v.get("restarted").and_then(|r| r.as_bool()) == Some(true) => ui2
+                        .toast(&tr(
+                            "Connections changed. The transfer resumed from its previous position.",
+                        )),
+                    Ok(_) => ui2.toast(&tr("Connections changed.")),
                     Err(e) => ui2.toast(&e),
                 }
                 ui2.refresh();
@@ -387,7 +390,7 @@ impl Ui {
     fn show_details(&self, v: &TaskView) {
         let t = &v.task;
         let dialog = adw::Dialog::builder()
-            .title(tr("Detalhes do download"))
+            .title(tr("Download details"))
             .content_width(520)
             .build();
         let page = adw::PreferencesPage::new();
@@ -405,37 +408,40 @@ impl Ui {
                 .build();
             group.add(&r);
         };
-        row(tr("Arquivo"), t.filename.clone());
-        row(tr("Pasta"), t.destination_dir.to_string_lossy().to_string());
-        row(tr("Endereço"), t.url.clone());
-        row(tr("Estado"), state_label(t.state));
+        row(tr("File"), t.filename.clone());
         row(
-            tr("Tamanho"),
+            tr("Folder"),
+            t.destination_dir.to_string_lossy().to_string(),
+        );
+        row(tr("Address"), t.url.clone());
+        row(tr("Status"), state_label(t.state));
+        row(
+            tr("Size"),
             t.total_bytes
                 .map(format::bytes)
-                .unwrap_or_else(|| tr("Desconhecido")),
+                .unwrap_or_else(|| tr("Unknown")),
         );
-        row(tr("Recebido"), format::bytes(t.downloaded_bytes));
+        row(tr("Received"), format::bytes(t.downloaded_bytes));
         row(
-            tr("Conexões solicitadas (máximo)"),
+            tr("Requested connections (maximum)"),
             t.connections.as_u8().to_string(),
         );
         if t.state == TaskState::Baixando {
             row(
-                tr("Conexões ativas agora"),
+                tr("Currently active connections"),
                 v.active_connections.to_string(),
             );
-            row(tr("Velocidade"), format::speed(v.download_speed));
+            row(tr("Speed"), format::speed(v.download_speed));
         }
         row(
-            tr("SHA-256 esperado"),
+            tr("Expected SHA-256"),
             t.expected_sha256.clone().unwrap_or_default(),
         );
         if let Some(e) = &t.error_message {
-            row(tr("Erro"), e.clone());
+            row(tr("Error"), e.clone());
         }
-        row(tr("Identificador da tarefa"), t.id.to_string());
-        row(tr("GID no aria2"), t.aria2_gid.clone().unwrap_or_default());
+        row(tr("Task identifier"), t.id.to_string());
+        row(tr("aria2 GID"), t.aria2_gid.clone().unwrap_or_default());
         page.add(&group);
         let tb = adw::ToolbarView::new();
         tb.add_top_bar(&adw::HeaderBar::new());
@@ -446,15 +452,15 @@ impl Ui {
 
     fn ask_new_url(self: &Rc<Self>, id: Uuid) {
         let d = adw::AlertDialog::new(
-            Some(&tr("Tentar com um novo link")),
-            Some(&tr("Será criada uma nova tarefa. O arquivo parcial do link anterior não é reaproveitado, porque não há como confirmar que é o mesmo conteúdo.")),
+            Some(&tr("Try with a new link")),
+            Some(&tr("A new task will be created. The previous link's partial file will not be reused because its content cannot be confirmed to be the same.")),
         );
         let entry = gtk::Entry::builder()
             .placeholder_text("https://")
             .input_purpose(gtk::InputPurpose::Url)
             .build();
         d.set_extra_child(Some(&entry));
-        d.add_responses(&[("cancel", &tr("Cancelar")), ("create", &tr("Criar tarefa"))]);
+        d.add_responses(&[("cancel", &tr("Cancel")), ("create", &tr("Create task"))]);
         d.set_response_appearance("create", adw::ResponseAppearance::Suggested);
         d.set_default_response(Some("create"));
         d.set_close_response("cancel");
@@ -467,7 +473,7 @@ impl Ui {
             let ui2 = ui.clone();
             glib::spawn_future_local(async move {
                 match backend::call::<serde_json::Value>(Op::RetryWithNewUrl { id, url }).await {
-                    Ok(_) => ui2.toast(&tr("Nova tarefa criada.")),
+                    Ok(_) => ui2.toast(&tr("New task created.")),
                     Err(e) => ui2.toast(&e),
                 }
                 ui2.refresh();
@@ -478,16 +484,13 @@ impl Ui {
     fn confirm_delete(self: &Rc<Self>, v: &TaskView) {
         let id = v.task.id;
         let d = adw::AlertDialog::new(
-            Some(&tr("Excluir arquivo do disco?")),
+            Some(&tr("Delete file from disk?")),
             Some(&trf(
-                "“{name}” e seus dados parciais serão apagados de {dir} e o item sairá da lista. Isso não pode ser desfeito.",
+                "“{name}” and its partial data will be deleted from {dir}, and the item will be removed from the list. This cannot be undone.",
                 &[("name", &v.task.filename), ("dir", &v.task.destination_dir.to_string_lossy())],
             )),
         );
-        d.add_responses(&[
-            ("cancel", &tr("Cancelar")),
-            ("delete", &tr("Excluir arquivo")),
-        ]);
+        d.add_responses(&[("cancel", &tr("Cancel")), ("delete", &tr("Delete file"))]);
         d.set_response_appearance("delete", adw::ResponseAppearance::Destructive);
         d.set_default_response(Some("cancel"));
         d.set_close_response("cancel");
@@ -499,7 +502,7 @@ impl Ui {
             let ui2 = ui.clone();
             glib::spawn_future_local(async move {
                 match backend::call::<serde_json::Value>(Op::DeleteFile { id }).await {
-                    Ok(_) => ui2.toast(&tr("Arquivo excluído.")),
+                    Ok(_) => ui2.toast(&tr("File deleted.")),
                     Err(e) => ui2.toast(&e),
                 }
                 ui2.refresh();
@@ -509,13 +512,10 @@ impl Ui {
 
     fn confirm_quit_backend(self: &Rc<Self>) {
         let d = adw::AlertDialog::new(
-            Some(&tr("Pausar tudo e encerrar?")),
-            Some(&tr("Todos os downloads serão pausados e o serviço em segundo plano será encerrado. Eles poderão ser retomados na próxima vez que você abrir o Lyra Downloads.")),
+            Some(&tr("Pause all and quit?")),
+            Some(&tr("All downloads will be paused and the background service will stop. You can resume them the next time you open Lyra Downloads.")),
         );
-        d.add_responses(&[
-            ("cancel", &tr("Cancelar")),
-            ("quit", &tr("Pausar e encerrar")),
-        ]);
+        d.add_responses(&[("cancel", &tr("Cancel")), ("quit", &tr("Pause and quit"))]);
         d.set_response_appearance("quit", adw::ResponseAppearance::Destructive);
         d.set_close_response("cancel");
         let ui = self.clone();
@@ -565,26 +565,26 @@ pub fn build(app: &adw::Application) -> Rc<Ui> {
         .child(
             &adw::ButtonContent::builder()
                 .icon_name("list-add-symbolic")
-                .label(tr("Novo download"))
+                .label(tr("New download"))
                 .build(),
         )
         .action_name("win.new-download")
         .css_classes(["suggested-action"])
-        .tooltip_text(tr("Novo download (Ctrl+N)"))
+        .tooltip_text(tr("New download (Ctrl+N)"))
         .build();
     header.pack_start(&new_btn);
     let menu = gio::Menu::new();
     let s1 = gio::Menu::new();
-    s1.append(Some(&tr("Pausar tudo")), Some("win.pause-all"));
-    s1.append(Some(&tr("Retomar tudo")), Some("win.resume-all"));
+    s1.append(Some(&tr("Pause all")), Some("win.pause-all"));
+    s1.append(Some(&tr("Resume all")), Some("win.resume-all"));
     menu.append_section(None, &s1);
     let s2 = gio::Menu::new();
-    s2.append(Some(&tr("Preferências")), Some("win.preferences"));
-    s2.append(Some(&tr("Sobre o Lyra Downloads")), Some("win.about"));
+    s2.append(Some(&tr("Preferences")), Some("win.preferences"));
+    s2.append(Some(&tr("About Lyra Downloads")), Some("win.about"));
     menu.append_section(None, &s2);
     let s3 = gio::Menu::new();
     s3.append(
-        Some(&tr("Pausar tudo e encerrar o serviço…")),
+        Some(&tr("Pause all and stop the service…")),
         Some("win.quit-backend"),
     );
     menu.append_section(None, &s3);
@@ -592,17 +592,17 @@ pub fn build(app: &adw::Application) -> Rc<Ui> {
         .icon_name("open-menu-symbolic")
         .menu_model(&menu)
         .primary(true)
-        .tooltip_text(tr("Menu principal"))
+        .tooltip_text(tr("Main menu"))
         .build();
     header.pack_end(&menu_btn);
     let search_btn = gtk::ToggleButton::builder()
         .icon_name("system-search-symbolic")
-        .tooltip_text(tr("Buscar (Ctrl+F)"))
+        .tooltip_text(tr("Search (Ctrl+F)"))
         .build();
     header.pack_end(&search_btn);
 
     let search_entry = gtk::SearchEntry::builder()
-        .placeholder_text(tr("Buscar por nome ou endereço"))
+        .placeholder_text(tr("Search by name or address"))
         .hexpand(true)
         .build();
     let search_bar = gtk::SearchBar::builder()
@@ -710,7 +710,7 @@ pub fn build(app: &adw::Application) -> Rc<Ui> {
         Some(&gtk::Image::from_icon_name("list-add-symbolic").to_value()),
     );
     window.add_breakpoint(bp);
-    new_btn.update_property(&[gtk::accessible::Property::Label(&tr("Novo download"))]);
+    new_btn.update_property(&[gtk::accessible::Property::Label(&tr("New download"))]);
 
     let ui = Rc::new(Ui {
         window: window.clone(),
@@ -794,11 +794,11 @@ pub fn build(app: &adw::Application) -> Rc<Ui> {
                 .application_name("Lyra Downloads")
                 .application_icon(crate::APP_ID)
                 .version(env!("CARGO_PKG_VERSION"))
-                .developer_name(tr("Projeto Lyra OS"))
+                .developer_name(tr("Lyra OS Project"))
                 .license_type(gtk::License::Gpl30)
                 .website("https://github.com/lyra-os-linux/lyra-downloads")
                 .comments(tr(
-                    "Gerenciador de downloads com conexões paralelas, usando o motor aria2.",
+                    "Download manager with parallel connections, powered by aria2.",
                 ))
                 .build();
             about.present(Some(&w));

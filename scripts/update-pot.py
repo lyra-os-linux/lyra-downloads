@@ -10,6 +10,7 @@ catálogo em po/LINGUAS não cobrir todas as mensagens.
 from __future__ import annotations
 
 import ast
+import gettext
 import re
 import subprocess
 import sys
@@ -39,7 +40,7 @@ def po_quote(s: str) -> str:
 def render(messages: dict[str, list[str]]) -> str:
     out = [
         "# Modelo de tradução do Lyra Downloads.",
-        "# Idioma-fonte: português do Brasil.",
+        "# Source language and fallback: English (United States).",
         "#, fuzzy",
         'msgid ""',
         'msgstr ""',
@@ -93,9 +94,19 @@ def main() -> int:
     ]
     for locale in linguas:
         po = ROOT / "po" / f"{locale}.po"
-        subprocess.run(["msgmerge", "--quiet", "--update", "--backup=none", str(po), str(POT)], check=True)
+        if "--check" not in sys.argv:
+            subprocess.run(["msgmerge", "--quiet", "--update", "--backup=none", str(po), str(POT)], check=True)
         with tempfile.NamedTemporaryFile(suffix=".mo") as mo:
             subprocess.run(["msgfmt", "--check", "--check-format", "-o", mo.name, str(po)], check=True)
+            with open(mo.name, "rb") as compiled:
+                catalog = gettext.GNUTranslations(compiled)
+            keys = set(catalog._catalog) - {""}
+            if keys != set(messages):
+                raise ValueError(f"{locale}: missing, fuzzy or stale translations: {set(messages) ^ keys}")
+            for message in messages:
+                translated = catalog.gettext(message)
+                if not translated.strip() or sorted(re.findall(r"\{[^{}]+\}", message)) != sorted(re.findall(r"\{[^{}]+\}", translated)):
+                    raise ValueError(f"{locale}: invalid translation/placeholders: {message}")
     print(f"{POT.relative_to(ROOT)}: {content.count(chr(10) + 'msgid ')} mensagens")
     return 0
 

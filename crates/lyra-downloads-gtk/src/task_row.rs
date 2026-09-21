@@ -41,13 +41,13 @@ fn icon_button(icon: &str, tooltip: &str) -> gtk::Button {
 
 pub fn state_label(s: TaskState) -> String {
     match s {
-        TaskState::Aguardando => tr("Aguardando"),
-        TaskState::Baixando => tr("Baixando"),
-        TaskState::Pausado => tr("Pausado"),
-        TaskState::Verificando => tr("Verificando SHA-256"),
-        TaskState::Concluido => tr("Concluído"),
-        TaskState::Cancelado => tr("Cancelado"),
-        TaskState::Erro => tr("Erro"),
+        TaskState::Aguardando => tr("Queued"),
+        TaskState::Baixando => tr("Downloading"),
+        TaskState::Pausado => tr("Paused"),
+        TaskState::Verificando => tr("Verifying SHA-256"),
+        TaskState::Concluido => tr("Finished"),
+        TaskState::Cancelado => tr("Canceled"),
+        TaskState::Erro => tr("Error"),
     }
 }
 
@@ -99,18 +99,18 @@ impl TaskRow {
         texts.append(&status);
         texts.append(&badge);
 
-        let pause_btn = icon_button("media-playback-pause-symbolic", &tr("Pausar"));
-        let resume_btn = icon_button("media-playback-start-symbolic", &tr("Retomar"));
-        let cancel_btn = icon_button("process-stop-symbolic", &tr("Cancelar transferência"));
-        let retry_btn = icon_button("view-refresh-symbolic", &tr("Tentar novamente"));
-        let folder_btn = icon_button("folder-open-symbolic", &tr("Abrir pasta"));
+        let pause_btn = icon_button("media-playback-pause-symbolic", &tr("Pause"));
+        let resume_btn = icon_button("media-playback-start-symbolic", &tr("Resume"));
+        let cancel_btn = icon_button("process-stop-symbolic", &tr("Cancel transfer"));
+        let retry_btn = icon_button("view-refresh-symbolic", &tr("Try again"));
+        let folder_btn = icon_button("folder-open-symbolic", &tr("Open folder"));
         let menu_btn = gtk::MenuButton::builder()
             .icon_name("view-more-symbolic")
-            .tooltip_text(tr("Mais ações"))
+            .tooltip_text(tr("More actions"))
             .valign(gtk::Align::Center)
             .css_classes(["flat", "circular"])
             .build();
-        menu_btn.update_property(&[gtk::accessible::Property::Label(&tr("Mais ações"))]);
+        menu_btn.update_property(&[gtk::accessible::Property::Label(&tr("More actions"))]);
 
         top.append(&icon);
         top.append(&texts);
@@ -186,7 +186,7 @@ impl TaskRow {
         let mut parts = vec![state_label(t.state)];
         let size = match t.total_bytes {
             Some(total) if t.state != TaskState::Concluido => trf(
-                "{a} de {b}",
+                "{a} of {b}",
                 &[
                     ("a", &format::bytes(t.downloaded_bytes)),
                     ("b", &format::bytes(total)),
@@ -194,7 +194,7 @@ impl TaskRow {
             ),
             Some(total) => format::bytes(total),
             None if t.downloaded_bytes > 0 => trf(
-                "{a} (tamanho desconhecido)",
+                "{a} (unknown size)",
                 &[("a", &format::bytes(t.downloaded_bytes))],
             ),
             None => String::new(),
@@ -205,15 +205,15 @@ impl TaskRow {
         if t.state == TaskState::Baixando {
             parts.push(format::speed(v.download_speed));
             parts.push(trf(
-                "{n} de {max} conexões",
+                "{n} of {max} connections",
                 &[
                     ("n", &v.active_connections.to_string()),
                     ("max", &t.connections.as_u8().to_string()),
                 ],
             ));
             match format::eta(t.total_bytes, t.downloaded_bytes, v.download_speed) {
-                Some(s) => parts.push(trf("faltam {t}", &[("t", &format::duration(s))])),
-                None => parts.push(tr("tempo restante desconhecido")),
+                Some(s) => parts.push(trf("{t} remaining", &[("t", &format::duration(s))])),
+                None => parts.push(tr("remaining time unknown")),
             }
         }
         if let Some(e) = t
@@ -231,14 +231,12 @@ impl TaskRow {
         self.badge.remove_css_class("dim-label");
         if t.state == TaskState::Concluido {
             let (text, class) = match t.hash_verification {
-                HashVerification::Confere => {
-                    (tr("SHA-256 confere com o valor informado"), "success")
-                }
+                HashVerification::Confere => (tr("SHA-256 matches the supplied value"), "success"),
                 HashVerification::NaoConfere => (
-                    tr("SHA-256 não confere — arquivo mantido; verifique a origem"),
+                    tr("SHA-256 does not match — file kept; verify the source"),
                     "error",
                 ),
-                HashVerification::NaoVerificado => (tr("Não verificado"), "dim-label"),
+                HashVerification::NaoVerificado => (tr("Not verified"), "dim-label"),
             };
             self.badge.set_label(&text);
             self.badge.add_css_class(class);

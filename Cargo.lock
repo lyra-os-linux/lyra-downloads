@@ -1161,8 +1161,9 @@ checksum = "4050469837a6ff301cd14c1f8f24f88549e6d548f24f64e2148eb0f72cebc51f"
 
 [[package]]
 name = "lyra-downloads-aria2"
-version = "0.1.2"
+version = "0.1.3"
 dependencies = [
+ "gettext-rs",
  "libc",
  "rand 0.8.8",
  "reqwest",
@@ -1175,7 +1176,7 @@ dependencies = [
 
 [[package]]
 name = "lyra-downloads-backend"
-version = "0.1.2"
+version = "0.1.3"
 dependencies = [
  "chrono",
  "futures-lite",
@@ -1199,10 +1200,11 @@ dependencies = [
 
 [[package]]
 name = "lyra-downloads-core"
-version = "0.1.2"
+version = "0.1.3"
 dependencies = [
  "chrono",
  "dirs",
+ "gettext-rs",
  "rusqlite",
  "serde",
  "serde_json",
@@ -1215,7 +1217,7 @@ dependencies = [
 
 [[package]]
 name = "lyra-downloads-gtk"
-version = "0.1.2"
+version = "0.1.3"
 dependencies = [
  "gettext-rs",
  "gtk4",
@@ -1231,19 +1233,20 @@ dependencies = [
 
 [[package]]
 name = "lyra-downloads-ipc"
-version = "0.1.2"
+version = "0.1.3"
 dependencies = [
  "libc",
  "lyra-downloads-core",
  "serde",
  "serde_json",
+ "tempfile",
  "thiserror",
  "uuid",
 ]
 
 [[package]]
 name = "lyra-downloads-nativehost"
-version = "0.1.2"
+version = "0.1.3"
 dependencies = [
  "libc",
  "lyra-downloads-core",
@@ -1257,7 +1260,7 @@ dependencies = [
 
 [[package]]
 name = "lyra-downloads-testserver"
-version = "0.1.2"
+version = "0.1.3"
 dependencies = [
  "tokio",
 ]
