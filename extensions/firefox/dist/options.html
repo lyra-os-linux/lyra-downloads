@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>Lyra Downloads Integration</title>
+  <link rel="stylesheet" href="ui.css">
+</head>
+<body class="options">
+  <main>
+    <h1 data-i18n="optionsTitle"></h1>
+
+    <section>
+      <h2 data-i18n="defaultTitle"></h2>
+      <label class="check big"><input type="checkbox" id="auto-capture"> <span data-i18n="autoEnable"></span></label>
+      <p class="help" data-i18n="autoHelp"></p>
+
+      <div id="capture-details">
+        <h3 data-i18n="scopeTitle"></h3>
+        <label class="check"><input type="radio" name="scope" id="scope-all"> <span data-i18n="scopeAll"></span></label>
+        <div id="cookies-all-row" class="indent">
+          <label class="check"><input type="checkbox" id="cookies-all"> <span data-i18n="cookiesAll"></span></label>
+          <p class="help" data-i18n="cookiesHelp"></p>
+        </div>
+        <label class="check"><input type="radio" name="scope" id="scope-listed"> <span data-i18n="scopeListed"></span></label>
+        <div id="listed-section" class="indent">
+          <table>
+            <thead><tr><th data-i18n="domainColumn"></th><th data-i18n="cookiesColumn"></th><th></th></tr></thead>
+            <tbody id="rules"></tbody>
+          </table>
+          <p id="no-rules" class="help" data-i18n="noRules"></p>
+          <div class="row">
+            <input id="new-domain" type="text" placeholder="sourceforge.net" aria-label="Domínio">
+            <button id="add-domain" data-i18n="addDomain"></button>
+          </div>
+        </div>
+
+        <h3 data-i18n="extensionsTitle"></h3>
+        <label class="check"><input type="radio" name="types" id="any-type"> <span data-i18n="anyType"></span></label>
+        <label class="check"><input type="radio" name="types" id="listed-types"> <span data-i18n="listedTypes"></span></label>
+        <div id="types-section" class="indent">
+          <p class="help" data-i18n="extensionsHelp"></p>
+          <div class="row">
+            <input id="extensions" type="text" aria-label="Extensões">
+            <button id="reset-extensions" data-i18n="resetExtensions"></button>
+          </div>
+        </div>
+
+        <h3 data-i18n="behaviorTitle"></h3>
+        <label class="check"><input type="checkbox" id="show-app"> <span data-i18n="showApp"></span></label>
+      </div>
+    </section>
+
+    <div class="row">
+      <button id="save" class="primary" data-i18n="save"></button>
+      <p id="message" role="status" aria-live="polite"></p>
+    </div>
+
+    <section>
+      <h2 data-i18n="manualTitle"></h2>
+      <p data-i18n="manualHelp"></p>
+    </section>
+  </main>
+  <script type="module" src="options.js"></script>
+</body>
+</html>
