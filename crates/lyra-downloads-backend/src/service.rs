@@ -1132,20 +1132,19 @@ fn spawn_verification(shared: Shared, task: Task) {
         if t.state != TaskState::Verificando {
             return;
         }
-        let body;
-        match result {
+        let body = match result {
             Ok(Ok(actual)) if actual == expected => {
                 t.hash_verification = HashVerification::Confere;
                 t.state = TaskState::Concluido;
-                body = trf(
+                trf(
                     "{name} — SHA-256 matches the supplied value",
                     &[("name", &t.filename)],
-                );
+                )
             }
             Ok(Ok(_)) => {
                 t.hash_verification = HashVerification::NaoConfere;
                 t.state = TaskState::Concluido;
-                body = trf("{name} — SHA-256 does not match. The file was kept; verify the source of the hash and file.", &[("name", &t.filename)]);
+                trf("{name} — SHA-256 does not match. The file was kept; verify the source of the hash and file.", &[("name", &t.filename)])
             }
             Ok(Err(e)) => {
                 t.hash_verification = HashVerification::NaoVerificado;
@@ -1154,7 +1153,7 @@ fn spawn_verification(shared: Shared, task: Task) {
                     "Could not read the file to verify SHA-256: {e}",
                     &[("e", &e.to_string())],
                 ));
-                body = String::new();
+                String::new()
             }
             Err(e) => {
                 t.state = TaskState::Erro;
@@ -1162,9 +1161,9 @@ fn spawn_verification(shared: Shared, task: Task) {
                     "Internal verification error: {e}",
                     &[("e", &e.to_string())],
                 ));
-                body = String::new();
+                String::new()
             }
-        }
+        };
         let _ = svc.save(&mut t);
         let notifier = svc.notifier.clone();
         let notify = svc.settings.notifications_enabled && t.state == TaskState::Concluido;
