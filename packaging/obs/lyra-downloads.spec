@@ -10,13 +10,13 @@
 #
 
 Name:           lyra-downloads
-Version:        0.1.3
+Version:        0.2.0
 Release:        0
 Summary:        Download manager with parallel connections for the Lyra OS ecosystem
 # Código do projeto: GPL-3.0-or-later. Crates vendorizadas (ligadas
 # estaticamente aos binários) — conjunto gerado por
 # scripts/third-party-licenses.py; lista completa em THIRD_PARTY_LICENSES.md.
-License:        GPL-3.0-or-later AND MIT AND Apache-2.0 AND ISC AND BSD-3-Clause AND MPL-2.0 AND Unicode-3.0 AND (Apache-2.0 OR MIT) AND (Apache-2.0 OR BSL-1.0) AND (Apache-2.0 OR ISC OR MIT) AND (Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT) AND (Apache-2.0 OR BSD-2-Clause OR MIT) AND (Apache-2.0 OR MIT OR Zlib) AND (MIT OR Unlicense)
+License:        GPL-3.0-or-later AND MIT AND Apache-2.0 AND ISC AND BSD-3-Clause AND MPL-2.0 AND Unicode-3.0 AND Zlib AND (0BSD OR Apache-2.0 OR MIT) AND (Apache-2.0 OR CC0-1.0 OR MIT-0) AND (BSD-3-Clause OR MIT) AND (Apache-2.0 OR MIT) AND (Apache-2.0 OR BSL-1.0) AND (Apache-2.0 OR ISC OR MIT) AND (Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT) AND (Apache-2.0 OR BSD-2-Clause OR MIT) AND (Apache-2.0 OR MIT OR Zlib) AND (MIT OR Unlicense)
 Group:          Productivity/Networking/Other
 URL:            https://github.com/lyra-os-linux/lyra-downloads
 Source0:        %{name}-%{version}.tar.zst
@@ -27,8 +27,11 @@ BuildRequires:  cargo-packaging
 BuildRequires:  rust >= 1.92
 BuildRequires:  gcc
 BuildRequires:  pkgconfig
-BuildRequires:  pkgconfig(gtk4) >= 4.12
-BuildRequires:  pkgconfig(libadwaita-1) >= 1.5
+# Interface em Tauri 2 (WebKitGTK); os arquivos de ui/ são embutidos no binário.
+BuildRequires:  pkgconfig(gtk+-3.0)
+BuildRequires:  pkgconfig(webkit2gtk-4.1)
+BuildRequires:  pkgconfig(javascriptcoregtk-4.1)
+BuildRequires:  pkgconfig(libsoup-3.0)
 BuildRequires:  pkgconfig(sqlite3)
 BuildRequires:  desktop-file-utils
 BuildRequires:  appstream-glib
@@ -43,8 +46,8 @@ Requires:       aria2
 ExclusiveArch:  x86_64
 
 %description
-Lyra Downloads is a download manager for HTTP and HTTPS with a native
-GTK4/libadwaita interface, using aria2 as the download engine. Each download
+Lyra Downloads is a download manager for HTTP and HTTPS with a GNOME-style
+interface (Tauri/WebKitGTK), using aria2 as the download engine. Each download
 can request up to 1, 4, 8 or 16 parallel connections (a maximum, not a
 guarantee), with a persistent queue, pause/resume, recovery after restart and
 optional SHA-256 verification.

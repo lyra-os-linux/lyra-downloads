@@ -1,4 +1,17 @@
 -------------------------------------------------------------------
+Sun Oct 25 00:00:00 UTC 2026 - rodrigo@lyraos.com.br
+
+- Update to 0.2.0:
+  * Replace the GTK4/libadwaita interface with a Tauri 2 (WebKitGTK)
+    interface in the style of Vega: sidebar with filters, live rows with
+    progress, speed, time left and connections, reorderable queue, new
+    download sheet with server probe, details, preferences and search.
+  * Keep the lyra-downloads binary, the org.lyraos.Downloads app id and
+    the --add-url contract used by the Firefox native host.
+  * Build with gtk3, webkit2gtk 4.1, javascriptcore and libsoup 3 instead
+    of gtk4 and libadwaita.
+
+-------------------------------------------------------------------
 Mon Sep 21 00:00:00 UTC 2026 - rodrigo@lyraos.com.br
 
 - Update to 0.1.3:
