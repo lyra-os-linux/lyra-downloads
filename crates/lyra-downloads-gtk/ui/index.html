@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lyra Downloads</title>
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/downloads.css">
+  <script src="js/boot.js"></script>
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <div class="window" id="window">
+    <aside class="sidebar" id="sidebar">
+      <header class="sidebar-header" data-drag>
+        <div class="brand" data-drag><span class="brand-mark" id="brand-mark"></span><span data-drag>Downloads</span></div>
+        <button class="icon-btn" id="menu-btn"></button>
+      </header>
+      <button class="search-trigger" id="search-trigger"><span class="ic" id="search-ic"></span><span id="search-label"></span><kbd>Ctrl K</kbd></button>
+      <nav class="nav" id="nav"></nav>
+      <footer class="sidebar-footer">
+        <button class="engine-chip" id="engine-chip">
+          <span class="engine-speed"><span class="ic" id="engine-ic"></span><strong id="engine-rate">0 B/s</strong></span>
+          <svg class="engine-spark" id="engine-spark" viewBox="0 0 120 26" preserveAspectRatio="none" aria-hidden="true"><path class="area"/><path class="line"/></svg>
+          <small><i class="status-dot" id="engine-dot"></i><span id="engine-label">aria2</span></small>
+        </button>
+      </footer>
+    </aside>
+
+    <main class="content">
+      <header class="headerbar" id="headerbar" data-drag>
+        <button class="icon-btn only-narrow" id="sidebar-toggle"></button>
+        <div class="title-wrap" data-drag><h1 id="page-title" data-drag></h1><span class="crumb" id="page-crumb" data-drag></span></div>
+        <div class="header-actions" id="header-actions"></div>
+        <div class="window-controls" id="window-controls"></div>
+      </header>
+      <div class="scroller" id="scroller">
+        <div class="page" id="page"></div>
+      </div>
+      <div class="drop-hint" id="drop-hint" aria-hidden="true"><div><span class="ic" id="drop-ic"></span><strong id="drop-title"></strong><small id="drop-sub"></small></div></div>
+    </main>
+  </div>
+  <div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+</body>
+</html>
