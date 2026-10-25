@@ -4,20 +4,25 @@ version.workspace = true
 edition.workspace = true
 license.workspace = true
 authors.workspace = true
-description = "Interface GTK4/libadwaita do Lyra Downloads"
+description = "Interface do Lyra Downloads (Tauri)"
 
 [[bin]]
 name = "lyra-downloads"
 path = "src/main.rs"
 
+[build-dependencies]
+tauri-build = { version = "2.6.3", features = [] }
+
 [dependencies]
 lyra-downloads-core = { path = "../lyra-downloads-core" }
 lyra-downloads-ipc = { path = "../lyra-downloads-ipc" }
-gtk = { version = "0.11", package = "gtk4", features = ["v4_12"] }
-adw = { version = "0.9", package = "libadwaita", features = ["v1_5"] }
+tauri = { version = "2.11.5", features = [] }
+tauri-plugin-single-instance = "2.3.4"
+tauri-plugin-dialog = "2.4.2"
+gio = "0.22.8"
+glib = "0.22.8"
 serde.workspace = true
 serde_json.workspace = true
-uuid.workspace = true
 tracing.workspace = true
 tracing-subscriber.workspace = true
 gettext-rs.workspace = true

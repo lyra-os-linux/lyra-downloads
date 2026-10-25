@@ -1,7 +1,7 @@
 # Lyra Downloads
 
-Gerenciador de downloads para Linux com interface nativa **GTK4 +
-libadwaita**, motor **aria2** e integração opcional com o **Firefox**. Parte
+Gerenciador de downloads para Linux com interface **Tauri 2** (WebKitGTK)
+no estilo do GNOME, motor **aria2** e integração opcional com o **Firefox**. Parte
 do ecossistema Lyra OS (foco em GNOME/Wayland e openSUSE Leap 16).
 
 - HTTP e HTTPS, com até **1, 4, 8 ou 16 conexões** por download (é um máximo
@@ -23,12 +23,12 @@ avançado, outros navegadores, Flatpak.
 
 | Uso | Pacotes (versão observada no repositório) |
 |---|---|
-| Execução | `aria2` (1.37.0), `gtk4` (4.18), `libadwaita` (1.7), `sqlite3` (3.53) |
-| Build | `rust`/`cargo` (1.97; mínimo 1.92), `gcc`, `pkgconfig`, `gtk4-devel`, `libadwaita-devel`, `sqlite3-devel`, `gettext-tools`, `python3` |
+| Execução | `aria2` (1.37.0), `webkit2gtk-4.1`, `gtk3`, `sqlite3` (3.53) |
+| Build | `rust`/`cargo` (1.97; mínimo 1.92), `gcc`, `pkgconfig`, `webkit2gtk3-devel` (API 4.1), `gtk3-devel`, `libsoup-devel`, `sqlite3-devel`, `gettext-tools`, `python3` |
 | Validação | `desktop-file-utils`, `appstream-glib`, `AppStream` (appstreamcli) |
 
 ```sh
-sudo zypper install aria2 rust cargo gcc pkgconfig gtk4-devel libadwaita-devel \
+sudo zypper install aria2 rust cargo gcc pkgconfig webkit2gtk3-devel gtk3-devel libsoup-devel \
     sqlite3-devel gettext-tools python3 desktop-file-utils appstream-glib nodejs24
 ```
 

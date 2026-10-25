@@ -1,0 +1,33 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Lyra Downloads",
+  "mainBinaryName": "lyra-downloads",
+  "identifier": "org.lyraos.Downloads",
+  "build": {
+    "frontendDist": "ui"
+  },
+  "app": {
+    "enableGTKAppId": false,
+    "withGlobalTauri": true,
+    "windows": [
+      {
+        "label": "main",
+        "title": "Lyra Downloads",
+        "width": 1000,
+        "height": 640,
+        "minWidth": 360,
+        "minHeight": 420,
+        "decorations": false,
+        "resizable": true,
+        "center": true
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src ipc: http://ipc.localhost"
+    }
+  },
+  "bundle": {
+    "active": false,
+    "icon": ["icons/icon.png"]
+  }
+}

@@ -5,7 +5,7 @@
 ```
  Firefox ──(Native Messaging)──▶ lyra-downloads-nativehost ─┐
                                                              │  socket Unix
- lyra-downloads (GTK4/libadwaita) ───────────────────────────┼──────────────▶ lyra-downloads-backend ──JSON-RPC──▶ aria2c
+ lyra-downloads (Tauri/WebKitGTK) ───────────────────────────┼──────────────▶ lyra-downloads-backend ──JSON-RPC──▶ aria2c
                                                              │   (JSON por linha)      │ (dono da fila)       (loopback,
                                                                                        ▼                       segredo)
                                                                                 SQLite + sessão aria2
@@ -17,7 +17,7 @@
 | `crates/lyra-downloads-aria2` | Cliente JSON-RPC do aria2 e supervisão do processo `aria2c` exclusivo. Tradução de códigos de erro. |
 | `crates/lyra-downloads-ipc` | Protocolo local (tipos de requisição/resposta) e cliente síncrono do backend, incluindo o início desanexado do backend. |
 | `crates/lyra-downloads-backend` | Binário `lyra-downloads-backend`: dono único da fila e do motor, servidor do socket, reconciliação, verificação SHA-256, notificações. |
-| `crates/lyra-downloads-gtk` | Binário `lyra-downloads`: interface. Só apresenta e envia comandos ao backend. |
+| `crates/lyra-downloads-gtk` | Binário `lyra-downloads`: interface em Tauri 2 (`ui/` em HTML/CSS/JS, embutida no binário). Só apresenta e envia comandos ao backend pelo comando `backend_call`, que repassa o `Op` do protocolo. |
 | `crates/lyra-downloads-nativehost` | Binário `lyra-downloads-nativehost`: enquadramento Native Messaging e encaminhamento de operações permitidas. |
 | `tools/testserver` | Servidor HTTP local para testes (ranges/206, redirecionamento, falhas). Não é empacotado. |
 

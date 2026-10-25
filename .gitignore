@@ -1,3 +1,4 @@
 /target/
 /packaging/obs/out/
 *.mo
+/crates/lyra-downloads-gtk/gen/
