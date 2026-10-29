@@ -10,7 +10,7 @@
 #
 
 Name:           lyra-downloads
-Version:        0.2.0
+Version:        0.2.1
 Release:        0
 Summary:        Download manager with parallel connections for the Lyra OS ecosystem
 # Código do projeto: GPL-3.0-or-later. Crates vendorizadas (ligadas

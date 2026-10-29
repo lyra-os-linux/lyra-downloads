@@ -1,4 +1,13 @@
 -------------------------------------------------------------------
+Thu Oct 29 00:00:00 UTC 2026 - rodrigo@lyraos.com.br
+
+- Update to 0.2.1:
+  * Disable the WebKit DMA-BUF renderer at startup, so WebKitWebProcess no
+    longer aborts with heap corruption on exit (lyra-downloads#5,
+    vega#166). The backend and apps opened for files and folders do not
+    inherit the variable.
+
+-------------------------------------------------------------------
 Sun Oct 25 00:00:00 UTC 2026 - rodrigo@lyraos.com.br
 
 - Update to 0.2.0:

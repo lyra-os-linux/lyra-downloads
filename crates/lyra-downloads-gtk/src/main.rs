@@ -4,12 +4,14 @@ mod backend;
 mod desktop;
 mod i18n;
 mod launch;
+mod webkit_env;
 
 use tauri::{Emitter, Manager};
 
 pub const APP_ID: &str = "org.lyraos.Downloads";
 
 fn main() {
+    webkit_env::apply();
     i18n::init();
     let filter = tracing_subscriber::EnvFilter::try_from_env("LYRA_DOWNLOADS_LOG")
         .unwrap_or_else(|_| tracing_subscriber::EnvFilter::new("warn"));

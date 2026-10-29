@@ -56,11 +56,17 @@ impl BackendClient {
     /// Conecta ao backend; se não responder, inicia-o desanexado
     /// (nova sessão via `setsid`) e aguarda uma resposta de saúde.
     pub fn connect_or_spawn() -> Result<Self, ClientError> {
+        Self::connect_or_spawn_without(&[])
+    }
+
+    /// Como `connect_or_spawn`, mas o backend iniciado não herda as
+    /// variáveis de ambiente indicadas.
+    pub fn connect_or_spawn_without(unset: &[&str]) -> Result<Self, ClientError> {
         let socket = lyra_downloads_core::paths::backend_socket_path()?;
         if let Ok(c) = Self::connect_ready(&socket) {
             return Ok(c);
         }
-        spawn_backend_detached()?;
+        spawn_backend_detached_without(unset)?;
         let deadline = Instant::now() + Duration::from_secs(10);
         loop {
             match Self::connect_ready(&socket) {
@@ -144,8 +150,20 @@ pub fn find_sibling_executable(name: &str) -> Option<PathBuf> {
 /// (`setsid`), stdio em /dev/null. Assim, se o Firefox encerrar o grupo de
 /// processos do native host, o processo iniciado sobrevive.
 pub fn spawn_detached(program: &Path, args: &[&str]) -> std::io::Result<()> {
+    spawn_detached_without(program, args, &[])
+}
+
+/// Como `spawn_detached`, sem passar ao filho as variáveis indicadas.
+pub fn spawn_detached_without(
+    program: &Path,
+    args: &[&str],
+    unset: &[&str],
+) -> std::io::Result<()> {
     use std::os::unix::process::CommandExt;
     let mut cmd = Command::new(program);
+    for key in unset {
+        cmd.env_remove(key);
+    }
     cmd.args(args)
         .stdin(Stdio::null())
         .stdout(Stdio::null())
@@ -168,10 +186,14 @@ pub fn spawn_detached(program: &Path, args: &[&str]) -> std::io::Result<()> {
 }
 
 pub fn spawn_backend_detached() -> Result<(), ClientError> {
+    spawn_backend_detached_without(&[])
+}
+
+fn spawn_backend_detached_without(unset: &[&str]) -> Result<(), ClientError> {
     let exe = find_sibling_executable("lyra-downloads-backend").ok_or_else(|| {
         ClientError::Unavailable("executável lyra-downloads-backend não encontrado".into())
     })?;
-    spawn_detached(&exe, &[])?;
+    spawn_detached_without(&exe, &[], unset)?;
     Ok(())
 }
 
@@ -179,6 +201,19 @@ pub fn spawn_backend_detached() -> Result<(), ClientError> {
 mod readiness_tests {
     use super::*;
     use std::os::unix::net::UnixListener;
+
+    #[test]
+    fn detached_child_does_not_inherit_unset_variables() {
+        let root = tempfile::tempdir().unwrap();
+        let out = root.path().join("env");
+        let script = format!("printenv HOME > {0}.tmp; mv {0}.tmp {0}", out.display());
+        spawn_detached_without(Path::new("/bin/sh"), &["-c", &script], &["HOME"]).unwrap();
+        let deadline = Instant::now() + Duration::from_secs(5);
+        while !out.exists() && Instant::now() < deadline {
+            std::thread::sleep(Duration::from_millis(20));
+        }
+        assert_eq!(std::fs::read_to_string(&out).unwrap(), "");
+    }
 
     #[test]
     fn accepted_connection_without_a_reply_is_not_ready() {
