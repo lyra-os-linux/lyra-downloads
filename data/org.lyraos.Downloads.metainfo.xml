@@ -49,6 +49,11 @@
   <content_rating type="oars-1.1" />
   <translation type="gettext">lyra-downloads</translation>
   <releases>
+    <release version="0.2.1" date="2026-10-29">
+      <description>
+        <p>Stop the web content process from crashing when Lyra Downloads closes.</p>
+      </description>
+    </release>
     <release version="0.2.0" date="2026-10-25">
       <description>
         <p>New interface in the style of the Lyra OS apps: sidebar with filters, live progress, a reorderable queue, search and a new download sheet that checks the server first.</p>

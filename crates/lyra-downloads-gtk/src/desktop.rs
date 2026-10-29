@@ -14,7 +14,7 @@ fn file_uri(path: &str) -> String {
 pub async fn open_file(path: String) -> Result<(), String> {
     let uri = file_uri(&path);
     tauri::async_runtime::spawn_blocking(move || {
-        gio::AppInfo::launch_default_for_uri(&uri, None::<&gio::AppLaunchContext>)
+        gio::AppInfo::launch_default_for_uri(&uri, Some(&crate::webkit_env::launch_context()))
             .map_err(|error| error.to_string())
     })
     .await
@@ -44,7 +44,7 @@ pub async fn open_folder(path: String, dir: String) -> Result<(), String> {
         if shown.is_ok() {
             return Ok(());
         }
-        gio::AppInfo::launch_default_for_uri(&folder, None::<&gio::AppLaunchContext>)
+        gio::AppInfo::launch_default_for_uri(&folder, Some(&crate::webkit_env::launch_context()))
             .map_err(|error| error.to_string())
     })
     .await

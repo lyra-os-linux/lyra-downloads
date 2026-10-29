@@ -20,7 +20,7 @@ pub async fn backend_call(op: Value) -> Result<Value, String> {
 
 pub async fn call(op: Op) -> Result<Value, String> {
     tauri::async_runtime::spawn_blocking(move || {
-        let mut client = BackendClient::connect_or_spawn()?;
+        let mut client = BackendClient::connect_or_spawn_without(crate::webkit_env::child_unset())?;
         client.call::<Value>(op)
     })
     .await
